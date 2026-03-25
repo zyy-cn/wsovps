@@ -45,6 +45,10 @@ Render a private mainline for WSOVPS with science-first dual-gate control. Keep 
 - `docs/mainline/reports/takeover_latest.md` is the canonical single-document handoff artifact.
 - Supporting latest/report files remain evidence, but they are secondary to the takeover document for user upload-back.
 
+### Approval-reduction note
+- `.codex/config.toml` is repo-scoped to reduce approval interruptions in trusted runs.
+- `docs/runbooks/codex_approval_reduction.md` records the recommended allowlist prefixes and the user-level rule text.
+
 ### Next ticket file
 - `docs/mainline/CURRENT_EXECUTION_TICKET.md`
 

@@ -1,0 +1,13 @@
+# Project-level Codex configuration for wsovps.
+# Trusted-repo behavior: local edits only; remote gpu4090d is run-only.
+# Admin-managed policy can still override these defaults.
+
+sandbox_mode = "workspace-write"
+approval_policy = "never"
+
+# Repo-scoped behavioral guidance for future Codex sessions.
+# These are advisory notes for the project, not a replacement for gate contracts.
+# - local edits only
+# - remote run only
+# - no direct remote code patching
+# - latest-doc pullback required after remote runs

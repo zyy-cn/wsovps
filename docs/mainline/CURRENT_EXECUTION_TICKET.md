@@ -61,6 +61,7 @@ Complete the first bounded iteration after privatization:
 - workflow: `local edits only; remote run only`
 - remote code editing in this run: `not allowed`
 - takeover rule: `docs/mainline/reports/takeover_latest.md` is the mandatory upload-back artifact
+- authoritative commit truth: `051a81d` on local, GitHub, and remote deployed clone
 
 ## Resume / re-entry note
 After any wait-state or manual interruption, resume by reading `STATUS.md`, `CURRENT_EXECUTION_TICKET.md`, `gates/REGISTRY.json`, the active gate docs, and latest reports before taking the next bounded step.

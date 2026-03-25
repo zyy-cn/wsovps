@@ -7,16 +7,16 @@
 - evidence tier: `smoke`
 
 ## Authoritative commit truth
-- local HEAD: `c3ae87e`
-- GitHub pushed HEAD: `c3ae87e`
-- remote deployed HEAD: `c3ae87e`
+- local HEAD: `051a81d`
+- GitHub pushed HEAD: `051a81d`
+- remote deployed HEAD: `051a81d`
 
 ## Workflow-boundary check
 - local-edit / remote-run-only respected: `yes`
 - notes: local edits were made in the local repo; remote `gpu4090d` was treated as a deploy/run target only in this cycle.
 
 ## Work completed this cycle
-- local edits: updated private control-plane docs to add the mandatory takeover protocol and the default upload-back rule.
+- local edits: added repo-scoped Codex config, takeover guidance, and approval-reduction runbook.
 - remote runs: none.
 - pullback completed: not applicable for this docs-only cycle.
 
@@ -27,8 +27,8 @@
 - formal S1: `not attempted`
 
 ## Key outputs/results
-- artifacts produced: `docs/mainline/reports/takeover_latest.md`, updated control-plane docs, updated runbook language.
-- metrics: none; this cycle was protocol/policy only.
+- artifacts produced: `.codex/config.toml`, `docs/runbooks/codex_approval_reduction.md`, refreshed control-plane docs, refreshed takeover report.
+- metrics: none; this cycle was protocol/configuration only.
 - smoke/worked-example/formal distinction: docs-only control-plane change; not a formal benchmark result.
 
 ## Primary blocker
@@ -45,6 +45,7 @@
 - `docs/mainline/IMPLEMENT.md`
 - `docs/mainline/OPERATING_CONSTITUTION.md`
 - `docs/runbooks/mainline_phase_gate_runbook.md`
+- `docs/runbooks/codex_approval_reduction.md`
 - `docs/mainline/reports/path_alignment_latest.md`
 - `docs/mainline/reports/e1_readiness_latest.md`
 - `docs/mainline/reports/sync_correction_latest.md`
