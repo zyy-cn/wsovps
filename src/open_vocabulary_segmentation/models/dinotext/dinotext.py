@@ -284,6 +284,9 @@ class DINOText(nn.Module):
         return text_embs
 
     def apply_pamr(self, image, mask):
+        target_device = next(self.parameters()).device
+        image = image.to(target_device)
+        mask = mask.to(target_device)
         image = F.interpolate(image, mask.shape[-2:], mode="bilinear", align_corners=True)
         if self.pamr is None:
             pamr_iter = 10
