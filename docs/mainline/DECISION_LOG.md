@@ -38,7 +38,7 @@ Render a private mainline for WSOVPS with science-first dual-gate control. Keep 
 - The canonical COCO 2014 data root `data/coco2014` was audited on `gpu4090d`, and the official 2014 caption JSONs were found under `annotations/`.
 - The README paths `../coco/captions_train2014.json` and `../coco/captions_val2014.json` were materialized through symlink/path alignment.
 - The faithful extraction failed on the first command because `dino_extraction_v2.py` still called `torch.load(ann_path)` before the local patch, and therefore could not consume the JSON annotation inputs.
-- A local-only compatibility patch now restores `.json` loading via `json.load` while preserving dir/tar/PTH behavior and accepts the modern DINOv2 hub dict output.
+- A local-only compatibility patch now restores `.json` loading via `json.load` while preserving dir/tar/PTH behavior, accepts the modern DINOv2 hub dict output, and keeps `dinov2` on its dedicated branch.
 - Canonical COCO feature `.pth` artifacts could not yet be materialized until the patched code is deployed to the remote repo and replayed.
 
 ### Workflow correction note

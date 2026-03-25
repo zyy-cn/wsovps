@@ -68,7 +68,7 @@ Complete the first bounded iteration after privatization:
 ## Current-round note
 - The canonical project data entry `data/coco2014` was audited on `gpu4090d` and contains the official COCO 2014 assets under `annotations/`, with readable `train2014/` and `val2014/` image roots.
 - The README paths `../coco/captions_train2014.json` and `../coco/captions_val2014.json` were materialized through symlink/path alignment to that canonical root.
-- The faithful extractor contract mismatch was confirmed locally and patched: `dino_extraction_v2.py` now uses `json.load` for `.json` annotation inputs while preserving dir/tar/PTH behavior, and it now accepts the modern DINOv2 hub dict output.
+- The faithful extractor contract mismatch was confirmed locally and patched: `dino_extraction_v2.py` now uses `json.load` for `.json` annotation inputs while preserving dir/tar/PTH behavior, accepts the modern DINOv2 hub dict output, and keeps `dinov2` on the dedicated branch so it does not fall through into the generic `dino` path.
 - The next bounded step is to deploy the patch to the remote repo, then rerun the README-ordered feature extraction.
 
 ## Resume / re-entry note

@@ -210,7 +210,7 @@ def run_dinov2_extraction(model_name, data_dir, ann_path, batch_size, resize_dim
                         'x_norm_clstoken': output[:, 0, :],
                         'x_norm_patchtokens': output[:, 5:, :],
                     }
-            if 'dinov3' in model_name:
+            elif 'dinov3' in model_name:
                 output = model.forward_features(batch_imgs)
                 # reporting output in DINOv2 format
                 outs = {
