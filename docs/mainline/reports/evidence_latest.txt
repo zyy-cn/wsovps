@@ -1,0 +1,5 @@
+Evidence bundle
+- Environment: remote `wsovps` repaired in place on `gpu4090d`; torch 2.1.0+cu118 and CUDA 11.8 visible.
+- Path alignment: `data/pascal_voc` and `data/pascal_context` symlink targets exist and expose VOCdevkit trees; weights symlinks point to readable model weights.
+- Smoke: `clip`, `cv2`, `mmcv`, `mmengine`, `mmseg`, and `ProjectionLayer` import/build/forward all succeeded on the remote repo root.
+- Blocker: no `../coco2014_b14/*.pth` feature artifacts exist yet, so the faithful Stage-1 training input path remains unresolved.

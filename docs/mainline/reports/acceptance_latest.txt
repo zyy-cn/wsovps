@@ -1,0 +1,10 @@
+Acceptance summary
+- E0: PASS, because the canonical remote repo/env/wrapper were verified, the env was repaired in place, and the remote smoke imported the expected stack.
+- E1: BLOCKED, because the faithful Stage-1 path still lacks pre-extracted COCO feature .pth artifacts under the canonical path.
+- S1: not judged PASS.
+
+Key evidence
+- Remote python 3.10.20; torch 2.1.0+cu118; CUDA 11.8 visible.
+- mmcv-full 1.7.2, mmengine 0.10.7, mmsegmentation 0.30.0, openai-clip 1.0.1 installed.
+- ProjectionLayer smoke forward produced a 2x2 similarity tensor.
+- VOC and Context configs were rebound to repo-local symlink roots and canonical segmentation split files.
