@@ -12,3 +12,8 @@
 | Context ann dir | `SegmentationClass` | `SegmentationClass` | yes | Replaced stale `SegmentationClassContext` binding |
 | Context split | `ImageSets/Segmentation/{train,val}.txt` | `ImageSets/Segmentation/{train,val}.txt` | yes | Replaced stale `SegmentationContext/*` binding |
 | COCO feature path | `../coco2014_b14/*.pth` | missing | no | Rebound `train.py` defaults; feature materialization still blocked |
+
+
+## Workflow correction
+- Local edits only; remote run only.
+- No additional E1 path patch is required; canonical `../coco2014_b14/*.pth` is already the declared target.

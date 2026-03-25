@@ -52,5 +52,13 @@ Complete the first bounded iteration after privatization:
 - redesign the projector path away from faithful Talk2DINO before the faithful path is judged
 - broaden scope beyond the smallest step that serves S1
 
+## GitHub sync record
+- synced_commit: `e278f9d`
+- sync_status: `complete`
+
+## Sync correction note
+- workflow: `local edits only; remote run only`
+- remote code editing in this run: `not allowed`
+
 ## Resume / re-entry note
 After any wait-state or manual interruption, resume by reading `STATUS.md`, `CURRENT_EXECUTION_TICKET.md`, `gates/REGISTRY.json`, the active gate docs, and latest reports before taking the next bounded step.

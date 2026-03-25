@@ -37,6 +37,10 @@ Render a private mainline for WSOVPS with science-first dual-gate control. Keep 
 - Remote smoke passed for import, config parsing, and `ProjectionLayer` forward step.
 - Canonical COCO feature `.pth` artifacts are still absent under `../coco2014_b14`; E1 remains blocked.
 
+### Workflow correction note
+- Local edits only; remote run only.
+- Remote code is treated as a deploy target, not a patch target, for this run.
+
 ### Next ticket file
 - `docs/mainline/CURRENT_EXECUTION_TICKET.md`
 

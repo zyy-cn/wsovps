@@ -2,9 +2,9 @@
 
 **Derived view / anti-drift notice:** this file is for fresh web-side decision sessions. Validate state views before relying on it. Canonical docs and executable truth outrank this brief.
 
-- generated_at: `2026-03-25T08:28:50`
-- source_digest: `85fa07f3bd246a61cce4b9d29196fee81893c1d928d8d8d3e90da028870ad015`
-- state_version: `8ca455a6f9c3`
+- generated_at: `2026-03-25T08:47:57`
+- source_digest: `8ba8d14189f3413811eeecb6e93c60fb699af7e9d7886472d4ba4a59ba6a866a`
+- state_version: `b649d4f142c4`
 
 ## Current control-plane snapshot
 - active_gate: `S1 — Talk2DINO faithful reproduction`

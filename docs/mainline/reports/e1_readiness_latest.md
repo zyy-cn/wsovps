@@ -16,3 +16,7 @@
 ## Exact blocker
 - Feature materialization is required before a faithful S1 launch can proceed.
 - Canonical extraction entrypoints are `dino_extraction_v2.py` and `text_features_extraction.py`.
+
+## Workflow correction
+- No local-only code patch is needed for E1 pathing; the extraction and training entrypoints already use the canonical `../coco2014_b14/*.pth` target.
+- The remaining blocker is feature materialization on the remote run target.
