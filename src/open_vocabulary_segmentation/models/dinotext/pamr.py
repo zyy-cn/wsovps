@@ -42,7 +42,7 @@ class LocalAffinity(nn.Module):
 
     def forward(self, x):
 
-        self.weight_check = self.weight_check.type_as(x)
+        self.weight_check = self.weight_check.to(self.kernel.device)
         assert torch.all(self.weight_check.eq(self.kernel))
 
         B,K,H,W = x.size()
