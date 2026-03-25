@@ -53,7 +53,8 @@ class DINOText(nn.Module):
         # loading the model
         
         if 'dinov2' in model_name:
-            self.model_family = 'facebookresearch/dinov2' if 'dinov2' in model_name else 'facebookresearch/dino:main'
+            # Pin the DINOv2 hub ref to the cached main branch to avoid a live GitHub lookup.
+            self.model_family = 'facebookresearch/dinov2:main' if 'dinov2' in model_name else 'facebookresearch/dino:main'
             self.model = torch.hub.load(self.model_family, model_name)                
             
         elif 'mae' in model_name or 'sam' in model_name or 'clip' in model_name or 'dino' in model_name:
