@@ -450,7 +450,7 @@ def validate_seg(config, seg_config, data_loader, model):
         seg_config,
     )
 
-    if device == "cuda":
+    if device == "cuda" and dist.get_world_size() > 1:
         mmddp_model = MMDistributedDataParallel(
             seg_model, device_ids=[torch.cuda.current_device()], broadcast_buffers=False
         )
