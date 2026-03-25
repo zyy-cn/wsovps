@@ -202,7 +202,14 @@ def run_dinov2_extraction(model_name, data_dir, ann_path, batch_size, resize_dim
                 
         with torch.no_grad():
             if 'dinov2' in model_name:
-                outs = model(batch_imgs, is_training=True)
+                output = model(batch_imgs, is_training=True)
+                if isinstance(output, dict):
+                    outs = output
+                else:
+                    outs = {
+                        'x_norm_clstoken': output[:, 0, :],
+                        'x_norm_patchtokens': output[:, 5:, :],
+                    }
             if 'dinov3' in model_name:
                 output = model.forward_features(batch_imgs)
                 # reporting output in DINOv2 format
