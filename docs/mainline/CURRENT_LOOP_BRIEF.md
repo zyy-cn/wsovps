@@ -2,9 +2,9 @@
 
 **Derived view / anti-drift notice:** validate before use; canonical docs outrank this view.
 
-- generated_at: `2026-03-25T09:12:52`
-- source_digest: `d4c20cb09e3094b16e676502676ea3e1d7f8607d82e9169e3cd5e8616d9d0a9a`
-- state_version: `7f69c18aeb2c`
+- generated_at: `2026-03-25T09:13:23`
+- source_digest: `072225c548272c800294542a757d2eacefed2bf7502fa0280bb69546b91f22e4`
+- state_version: `9e8bf31cecb3`
 
 ## Read protocol (default)
 1) Validate state views: `python tools/validate_state_views.py`
