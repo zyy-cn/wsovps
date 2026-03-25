@@ -41,6 +41,10 @@ Render a private mainline for WSOVPS with science-first dual-gate control. Keep 
 - Local edits only; remote run only.
 - Remote code is treated as a deploy target, not a patch target, for this run.
 
+### Takeover protocol note
+- `docs/mainline/reports/takeover_latest.md` is the canonical single-document handoff artifact.
+- Supporting latest/report files remain evidence, but they are secondary to the takeover document for user upload-back.
+
 ### Next ticket file
 - `docs/mainline/CURRENT_EXECUTION_TICKET.md`
 

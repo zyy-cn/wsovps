@@ -23,6 +23,7 @@ This file tracks the authoritative state for document-driven automation.
 - Current evidence tier: `smoke`
 - Local latest-doc listener status: `required-if-long-job-launched`
 - Local latest sync status: `workflow-correction-recorded`
+- Mandatory handoff artifact: `docs/mainline/reports/takeover_latest.md`
 - Cold-start recovery mode: `active`
 - Web-session cold-start readiness: `ready-after-derived-views`
 - Prompt provenance status: `initialized`
@@ -73,6 +74,7 @@ This file tracks the authoritative state for document-driven automation.
 - remote smoke forward-step passed on `ProjectionLayer`
 - dataset/path bindings patched to canonical repo-local symlink roots
 - workflow correction recorded: local edits only; remote run only
+- takeover protocol: canonical handoff document required at end of each meaningful cycle
 - E1 remains blocked by missing pre-extracted feature artifacts
 
 ## Re-entry condition
@@ -82,6 +84,7 @@ After deployment, bootstrap verification, or any long-job completion, re-read `S
 - Phase/gate report: `docs/mainline/reports/phase_gate_latest.txt`
 - Acceptance report: `docs/mainline/reports/acceptance_latest.txt`
 - Evidence report: `docs/mainline/reports/evidence_latest.txt`
+- Takeover report: `docs/mainline/reports/takeover_latest.md`
 - Worked example (md): `docs/mainline/reports/worked_example_verification_latest.md`
 - Worked example (json): `docs/mainline/reports/worked_example_verification_latest.json`
 - Watcher report (if used): `docs/mainline/reports/training_watch_latest.txt`

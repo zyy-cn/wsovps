@@ -39,6 +39,7 @@ Complete the first bounded iteration after privatization:
 - `docs/mainline/reports/phase_gate_latest.txt`
 - `docs/mainline/reports/acceptance_latest.txt`
 - `docs/mainline/reports/evidence_latest.txt`
+- `docs/mainline/reports/takeover_latest.md`
 - update `docs/mainline/STATUS.md` if state changed
 - regenerate `docs/mainline/CURRENT_LOOP_BRIEF.md`
 - regenerate `docs/mainline/loop_state_latest.json`
@@ -59,6 +60,7 @@ Complete the first bounded iteration after privatization:
 ## Sync correction note
 - workflow: `local edits only; remote run only`
 - remote code editing in this run: `not allowed`
+- takeover rule: `docs/mainline/reports/takeover_latest.md` is the mandatory upload-back artifact
 
 ## Resume / re-entry note
 After any wait-state or manual interruption, resume by reading `STATUS.md`, `CURRENT_EXECUTION_TICKET.md`, `gates/REGISTRY.json`, the active gate docs, and latest reports before taking the next bounded step.
