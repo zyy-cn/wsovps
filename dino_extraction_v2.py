@@ -135,13 +135,13 @@ def run_dinov2_extraction(model_name, data_dir, ann_path, batch_size, resize_dim
         data = read_coco_format_wds(ann_path)
     else:
         # otherwise we treat the dataset as a COCO dataset
-        # if ann_path.endswith('.json'):
-        #     print("Loading the annotations JSON")
-        #     with open(ann_path, 'r') as f:
-        #         data = json.load(f)
-        # else:
-        print("Loading the annotations PTH")
-        data = torch.load(ann_path)
+        if ann_path.endswith('.json'):
+            print("Loading the annotations JSON")
+            with open(ann_path, 'r') as f:
+                data = json.load(f)
+        else:
+            print("Loading the annotations PTH")
+            data = torch.load(ann_path)
         
     if extract_second_last_out:
         model.blocks[-2].register_forward_hook(get_second_last_out)

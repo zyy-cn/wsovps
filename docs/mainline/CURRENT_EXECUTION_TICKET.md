@@ -54,14 +54,22 @@ Complete the first bounded iteration after privatization:
 - broaden scope beyond the smallest step that serves S1
 
 ## GitHub sync record
-- synced_commit: `9436bbd`
+- synced_commit: `ebe55a2`
 - sync_status: `complete`
 
 ## Sync correction note
 - workflow: `local edits only; remote run only`
 - remote code editing in this run: `not allowed`
-- takeover rule: `docs/mainline/reports/takeover_latest.md` is the mandatory upload-back artifact
-- authoritative commit truth: `9436bbd` on local, GitHub, and remote deployed clone
+- takeover rule: `docs/mainline/reports/takeover_latest.md` is the mandatory upload-back artifact and must be decision-sufficient when the cycle involves inspection, inventory, path audit, artifact verification, or failure diagnosis
+- takeover schema: `docs/mainline/TAKEOVER_SCHEMA.md`
+- authoritative commit truth: `ebe55a2` on local, GitHub, and remote deployed clone
+- Git sync cadence: commit/push at gate completion by default; takeover refresh alone does not force a push
+
+## Current-round note
+- The canonical project data entry `data/coco2014` was audited on `gpu4090d` and contains the official COCO 2014 assets under `annotations/`, with readable `train2014/` and `val2014/` image roots.
+- The README paths `../coco/captions_train2014.json` and `../coco/captions_val2014.json` were materialized through symlink/path alignment to that canonical root.
+- The faithful extractor contract mismatch was confirmed locally and patched: `dino_extraction_v2.py` now uses `json.load` for `.json` annotation inputs while preserving dir/tar/PTH behavior.
+- The next bounded step is to deploy the patch to the remote repo, then rerun the README-ordered feature extraction.
 
 ## Resume / re-entry note
 After any wait-state or manual interruption, resume by reading `STATUS.md`, `CURRENT_EXECUTION_TICKET.md`, `gates/REGISTRY.json`, the active gate docs, and latest reports before taking the next bounded step.
