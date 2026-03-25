@@ -271,7 +271,7 @@ def multi_gpu_test(model,
 
     for batch_indices, data in zip(loader_indices, data_loader):
         with torch.no_grad():
-            if device == 'cpu':
+            if hasattr(data.get('img_metas'), 'data'):
                 data['img_metas'] = [e.data[0] for e in data['img_metas']]
             result = model(return_loss=False, rescale=True, **data)
 
