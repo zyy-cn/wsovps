@@ -7,9 +7,9 @@
 - evidence tier: `smoke`
 
 ## Authoritative commit truth
-- local HEAD: `0be9668`
-- GitHub pushed HEAD: `0be9668`
-- remote deployed HEAD: `0be9668`
+- local HEAD: `9436bbd`
+- GitHub pushed HEAD: `9436bbd`
+- remote deployed HEAD: `9436bbd`
 
 ## Workflow-boundary check
 - local-edit / remote-run-only respected: `yes`

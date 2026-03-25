@@ -3,7 +3,7 @@
 This file tracks the authoritative state for document-driven automation.
 
 ## Current state
-- Current code snapshot status: `takeover protocol active; local-edit / remote-run-only enforced; support snapshot at 0be9668`
+- Current code snapshot status: `takeover protocol active; local-edit / remote-run-only enforced; support snapshot at 9436bbd`
 - Gate mode: `science-first-dual-gate`
 - Active gate: `S1 — Talk2DINO faithful reproduction`
 - Active scientific gate: `S1 — Talk2DINO faithful reproduction`
@@ -22,7 +22,7 @@ This file tracks the authoritative state for document-driven automation.
 - Evidence bundle reviewed: `yes`
 - Current evidence tier: `smoke`
 - Local latest-doc listener status: `required-if-long-job-launched`
-- Local latest sync status: `synced-0be9668`
+- Local latest sync status: `synced-9436bbd`
 - Mandatory handoff artifact: `docs/mainline/reports/takeover_latest.md`
 - Cold-start recovery mode: `active`
 - Web-session cold-start readiness: `ready-after-derived-views`
@@ -53,7 +53,7 @@ This file tracks the authoritative state for document-driven automation.
 - canonical remote repo dir: `/home/zyy/code/wsovps`
 - conda env: `wsovps`
 - canonical wrapper: `tools/remote_verify_project.sh`
-- remote HEAD consistency evidence: `synced-0be9668`
+- remote HEAD consistency evidence: `synced-9436bbd`
 - bootstrap preflight evidence: `recorded-smoke`
 
 ## Running / pending jobs
@@ -75,7 +75,7 @@ This file tracks the authoritative state for document-driven automation.
 - dataset/path bindings patched to canonical repo-local symlink roots
 - workflow correction recorded: local edits only; remote run only
 - takeover protocol: canonical handoff document required at end of each meaningful cycle
-- authoritative commit truth: `0be9668` on local, GitHub, and remote deployed clone
+- authoritative commit truth: `9436bbd` on local, GitHub, and remote deployed clone
 - E1 remains blocked by missing pre-extracted feature artifacts
 
 ## Re-entry condition

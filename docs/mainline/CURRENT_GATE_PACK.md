@@ -2,8 +2,8 @@
 
 **Derived view / anti-drift notice:** canonical docs outrank this pack.
 
-- generated_at: `2026-03-25T09:13:23`
-- source_digest: `072225c548272c800294542a757d2eacefed2bf7502fa0280bb69546b91f22e4`
+- generated_at: `2026-03-25T09:13:45`
+- source_digest: `319780e89b7c9d7a3409c2bc91cd1339691ccf7f481ae006a9325e72af02ba54`
 - active_gate_id: `S1`
 - active_gate_label: `S1 — Talk2DINO faithful reproduction`
 - active_gate_file: `docs/mainline/gates/scientific/S1.md`

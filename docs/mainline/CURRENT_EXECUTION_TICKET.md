@@ -54,14 +54,14 @@ Complete the first bounded iteration after privatization:
 - broaden scope beyond the smallest step that serves S1
 
 ## GitHub sync record
-- synced_commit: `0be9668`
+- synced_commit: `9436bbd`
 - sync_status: `complete`
 
 ## Sync correction note
 - workflow: `local edits only; remote run only`
 - remote code editing in this run: `not allowed`
 - takeover rule: `docs/mainline/reports/takeover_latest.md` is the mandatory upload-back artifact
-- authoritative commit truth: `0be9668` on local, GitHub, and remote deployed clone
+- authoritative commit truth: `9436bbd` on local, GitHub, and remote deployed clone
 
 ## Resume / re-entry note
 After any wait-state or manual interruption, resume by reading `STATUS.md`, `CURRENT_EXECUTION_TICKET.md`, `gates/REGISTRY.json`, the active gate docs, and latest reports before taking the next bounded step.
