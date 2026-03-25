@@ -76,4 +76,4 @@ class DINOTextSegInference(EncoderDecoder):
             masks = torch.cat([background, masks], dim=1)
             masks = masks.to(img.device)
 
-        return masks
+        return masks.cpu()
