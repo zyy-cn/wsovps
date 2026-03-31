@@ -2,9 +2,9 @@
 
 **Derived view / anti-drift notice:** validate before use; canonical docs outrank this view.
 
-- generated_at: `2026-03-25T09:13:45`
-- source_digest: `319780e89b7c9d7a3409c2bc91cd1339691ccf7f481ae006a9325e72af02ba54`
-- state_version: `371ddd8c9078`
+- generated_at: `2026-03-30T22:58:57`
+- source_digest: `9d0358e0226a5040e916077b01ab4f8e3d586253e21ddd271e05d784283ef036`
+- state_version: `50dac0e49f1d`
 
 ## Read protocol (default)
 1) Validate state views: `python tools/validate_state_views.py`
@@ -12,24 +12,24 @@
 3) If STALE/CONFLICTED, read canonical control plane and regenerate: `python tools/render_state_views.py`.
 
 ## Current gate & tier
-- active_gate: `S1 — Talk2DINO faithful reproduction`
-- active_scientific_gate: `S1 — Talk2DINO faithful reproduction`
-- evidence_tier: `smoke`
+- active_gate: `S2`
+- active_scientific_gate: `S2`
+- evidence_tier: `formal`
 
 ## Current blocker summary
-### Scientific blockers - No formal S1 benchmark report exists yet. - Faithful training/evaluation protocol alignment has not been recorded in reports. - Canonical reusable Φ_o has not yet been evidenced under this control plane. ### Engineering-support blockers - Pre-extracted COCO feature `.pth` artifacts are absent under the canonical path `../coco2014_b14`. - The faithful training path now points at the canonical extraction location, but the files themselves still need to be materialized.
+not-yet-generated
 
 ## Next smallest valid step
-- Materialize the canonical COCO feature `.pth` files under `../coco2014_b14` using the repo extraction path. - Re-run the faithful Stage-1 smoke on the remote repo after the feature files exist. - Sync the resulting commit to GitHub, then record the commit hash in this file and `CURRENT_EXECUTION_TICKET.md`.
+not-yet-declared
 
 ## Formal standard reminder
-Formal S1 acceptance requires all of the following: - the faithful Stage-1 protocol is documented and bound to concrete entrypoints, configs, and paths; - benchmark evaluation is executed on the declared object-level OVS validation set, centered on Pascal VOC 20, Pascal Context 59, and COCO Object; - no critical integrity bug remains in dataset selection, metric aggregation, checkpoint loading, evaluator invocation, or config binding; - the resulting projector Φ_o is judged reusable for Stage 2; - the full evidence pack is present and reviewable. Until a later hot update tightens numeric thresholds, the default formal interpretation is: protocol-complete benchmark evidence plus explicit judgment on reuse, not a smoke-only floor.
+S2 closes only on clean official PP116 Oracle-Obj benchmark-loop evidence with valid Seen/Unseen/Harmonic reporting and B0/B1/B2 comparability.
 
 ## Re-entry condition
-After deployment, bootstrap verification, or any long-job completion, re-read `STATUS.md`, `CURRENT_EXECUTION_TICKET.md`, the active gate docs, and latest reports before the next bounded step.
+not-yet-declared
 
 ## Current execution scope objective
-Complete the first bounded iteration after privatization: 1. verify the control plane and canonical environment assumptions, 2. close the minimum E0 and E1 evidence gaps, 3. if unblocked, execute the smallest S1-serving smoke verification of the faithful Talk2DINO path.
+Run one clean official S2 rerun under the repaired formal path in the authoritative remote runtime, then refresh canonical surfaces and local sync-back for judgment readiness.
 
 ## Required outputs this iteration
 - `docs/mainline/reports/phase_gate_latest.txt`

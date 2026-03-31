@@ -1,0 +1,91 @@
+Read the privatized control plane first, using the anti-drift protocol.
+
+1) Run:
+- `python tools/validate_gate_registry.py`
+- `python tools/validate_state_views.py`
+
+2) If either check is STALE/CONFLICTED, fall back to the canonical read set in this exact order:
+- `AGENTS.md`
+- `START_AUTOMATION.md`
+- `docs/mainline/INDEX.md`
+- `docs/mainline/PLAN.md`
+- `docs/mainline/IMPLEMENT.md`
+- `docs/mainline/STATUS.md`
+- `docs/mainline/gates/REGISTRY.json`
+- `docs/mainline/gates/active_gate.json`
+- `docs/mainline/gates/scientific/S1.md`
+- `docs/mainline/gates/engineering/E0.md`
+- `docs/mainline/gates/engineering/E1.md`
+- `docs/mainline/METRICS_ACCEPTANCE.md`
+- `docs/mainline/EVIDENCE_REQUIREMENTS.md`
+- `docs/mainline/FAILURE_PLAYBOOK.md`
+- `docs/mainline/ENVIRONMENT_AND_VALIDATION.md`
+- `docs/mainline/CODEBASE_MAP.md`
+- `docs/mainline/DECISION_LOG.md`
+- `docs/mainline/CURRENT_EXECUTION_TICKET.md`
+- `docs/outline/wsovps_outline_v5.tex` as goal-layer context only
+
+3) Confirm the current running semantics:
+- gate mode = `science-first-dual-gate`
+- active scientific gate = `S1 — Talk2DINO faithful reproduction`
+- required supporting engineering gates = `E0`, `E1`
+- current evidence tier = `smoke`
+- smoke evidence does **not** count as formal PASS
+
+4) Execute exactly one bounded iteration. The objective of this first iteration is:
+- close the minimum E0 bootstrap/environment evidence gap,
+- close the minimum E1 data/weights/features readiness evidence gap,
+- and, if unblocked, execute the smallest S1-serving smoke verification of the faithful Talk2DINO path.
+
+5) Bind and verify the authoritative Stage-1 path instead of choosing ad hoc among historical code paths. Start from:
+- `train.py`
+- `configs/vitb_mlp_infonce.yaml`
+- `dino_extraction_v2.py`
+- `text_features_extraction.py`
+- `src/open_vocabulary_segmentation/main.py`
+
+6) Canonical environment facts for this intake:
+- remote host alias: `gpu4090d`
+- canonical remote repo dir: `/home/zyy/code/wsovps`
+- clone URL: `https://github.com/zyy-cn/wsovps`
+- default branch: `main`
+- conda env: `wsovps`
+- canonical wrapper: `tools/remote_verify_project.sh`
+- canonical activation recipe:
+  `source ~/software/miniconda3/etc/profile.d/conda.sh && conda activate wsovps && export PYTHONPATH=/home/zyy/code/wsovps:${PYTHONPATH:-}`
+
+7) If a long-running train/eval job is required, do not wait in chat. Convert it into durable wait-state:
+- record job identity, log path, artifact path, completion condition, and re-entry condition in `docs/mainline/STATUS.md`
+- prepare watcher support if used
+- if later review will depend on synchronized local latest docs, also prepare the local latest-doc listener path before leaving the loop
+
+7b) Git synchronization cadence:
+- refresh `docs/mainline/reports/takeover_latest.md` at the end of every meaningful cycle
+- `docs/mainline/TAKEOVER_SCHEMA.md` defines the structured detail takeover must carry for inspection, inventory, path audit, artifact verification, or failure diagnosis
+- do not infer that this alone requires a Git commit or push
+- commit and push at gate completion by default
+- earlier commit/push is allowed only when operationally necessary, such as a remote deployment of a local patch, a rollback-safe checkpoint, or an explicit user instruction
+
+8) Mandatory outputs for this round:
+- `docs/mainline/reports/phase_gate_latest.txt`
+- `docs/mainline/reports/acceptance_latest.txt`
+- `docs/mainline/reports/evidence_latest.txt`
+- `docs/mainline/reports/worked_example_verification_latest.md` and `.json` if a worked example was executed
+- update `docs/mainline/STATUS.md` if state changed
+- regenerate:
+  - `docs/mainline/CURRENT_LOOP_BRIEF.md`
+  - `docs/mainline/loop_state_latest.json`
+  - `docs/mainline/CURRENT_GATE_PACK.md`
+  - `docs/mainline/WEB_SESSION_BRIEF.md`
+  - `docs/mainline/state/CONTROL_PLANE_STATE.json`
+
+9) Do not:
+- declare formal S1 PASS from smoke-only evidence
+- activate S2 or S3
+- replace faithful Talk2DINO reproduction with a different mainline without explicit evidence-backed control-plane update
+- broaden scope beyond the smallest step that serves S1
+
+10) At the end of the bounded iteration, stop and summarize:
+- what was verified,
+- what remains blocked or inconclusive,
+- what exact next smallest valid step should be.

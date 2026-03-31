@@ -1,105 +1,78 @@
 # Current Gate Pack (Derived View)
 
-**Derived view / anti-drift notice:** canonical docs outrank this pack.
+**Derived view / anti-drift notice:** canonical docs and executable truth outrank this pack.
 
-- generated_at: `2026-03-25T09:13:45`
-- source_digest: `319780e89b7c9d7a3409c2bc91cd1339691ccf7f481ae006a9325e72af02ba54`
-- active_gate_id: `S1`
-- active_gate_label: `S1 — Talk2DINO faithful reproduction`
-- active_gate_file: `docs/mainline/gates/scientific/S1.md`
-- active_gate_version: `v1`
+- generated_at: `2026-03-30T22:58:57`
+- registry_version: `wsovps-new-mainline-v1-private`
+- active_gate_id: `S2`
+- active_gate_version: `wsovps-s2-v1`
+- active_gate_file: `docs/mainline/gates/scientific/S2_PP116_ORACLEOBJ_RESIDUAL_ONLY_FEASIBILITY.md`
 - pack_quality: `full`
 
 ## 1. Purpose
 
-Establish a faithful, reviewable Stage-1 Talk2DINO reproduction path that yields a reusable object projector Φ_o and a trusted benchmark/evaluation route for later WSOVPS stages.
+Under the current PP116 Oracle-Obj protocol, determine whether the residual-only route is scientifically feasible and comparatively useful for object-conditioned part parsing.
 
 ## 2. Claim / Control Goal
 
-### Scientific claim
-A Talk2DINO-faithful text-to-DINO object grounding path can be reproduced in this repository closely enough to serve as the Stage-1 semantic object grounding module for WSOVPS.
-
-### Engineering support goal
-S1 depends on E0 and E1 to guarantee that environment, paths, weights, and feature artifacts are valid before scientific judgment.
+Establish a bounded scientific claim for Stage-2 using the required B0/B1/B2 comparison chain:
+- B0: direct retrieval inside object-conditioned support
+- B1: object-conditioned part text without residual orthogonalization
+- B2: residual-only mainline
 
 ## 4. Smoke Standard
 
-A smoke result may count only as smoke when all of the following hold:
-- the faithful Stage-1 entrypoints are bound and documented;
-- the declared datasets / weights / feature sources can be opened or their exact absence is diagnosed;
-- one bounded train/eval wiring check runs far enough to prove the path is real;
-- the evaluator can emit at least one protocol-matched metric artifact or a precise blocker report;
-- any checkpoint-loading pathology (for example, gross missing-key behavior) is explicitly explained.
-
-Smoke evidence may support repairs and wait-state setup, but it does not count as formal PASS.
+Smoke checks may be used only to verify structural callability and protocol wiring. Smoke evidence cannot independently close S2.
 
 ## 5. Formal Standard
 
-Formal S1 acceptance requires all of the following:
-- the faithful Stage-1 protocol is documented and bound to concrete entrypoints, configs, and paths;
-- benchmark evaluation is executed on the declared object-level OVS validation set, centered on Pascal VOC 20, Pascal Context 59, and COCO Object;
-- no critical integrity bug remains in dataset selection, metric aggregation, checkpoint loading, evaluator invocation, or config binding;
-- the resulting projector Φ_o is judged reusable for Stage 2;
-- the full evidence pack is present and reviewable.
-
-Until a later hot update tightens numeric thresholds, the default formal interpretation is: protocol-complete benchmark evidence plus explicit judgment on reuse, not a smoke-only floor.
+S2 closes only on clean official PP116 Oracle-Obj benchmark-loop evidence with valid Seen/Unseen/Harmonic reporting and B0/B1/B2 comparability.
 
 ## 6. Required Metrics
 
-### Benchmark metrics
-- Pascal VOC 20 object-level OVS metric(s)
-- Pascal Context 59 object-level OVS metric(s)
-- COCO Object metric(s)
-- any additional protocol-matched Talk2DINO evaluation metrics that the faithful path actually uses
-
-### Diagnostic metrics
-- checkpoint load integrity
-- dataset / feature coverage
-- config parity notes
-- loss curves or train/eval progress indicators when training is involved
-- qualitative object-grounding sanity on at least one worked example
+- Seen mIoU
+- Unseen mIoU
+- Harmonic mIoU
 
 ## 7. Judgment Rule
 
-### PASS
-Return PASS only when the formal standard is fully met and E0/E1 are also passed.
-
-### FAIL
-Return FAIL when evidence shows the faithful reproduction claim is contradicted, or when the active path is proven to be non-faithful in a way that invalidates Stage 1.
-
-### INCONCLUSIVE
-Return INCONCLUSIVE when smoke results exist but the formal evidence pack is incomplete, or when protocol integrity remains unresolved.
-
-### Trade-off rule
-If one benchmark improves but another protocol-critical diagnostic or integrity check worsens materially, default to INCONCLUSIVE.
+S2 passes only when both hold:
+- Structural conditions: no trivial-collapse behavior, acceptable containment, controlled sibling overlap, non-pathological active-part behavior.
+- Comparative conditions: B2 shows meaningful improvement versus B0 and B1 on official PP116 Oracle-Obj metrics.
 
 ## 8. Evidence Requirements
 
-- `phase_gate_latest`, `acceptance_latest`, and `evidence_latest`
-- one worked example (md + json)
-- exact command lines, config ids, and path bindings
-- benchmark output table on the declared OVS validation set
-- checkpoint/load-integrity notes
-- explicit conclusion on whether Φ_o is reusable for Stage 2
+- formal benchmark report
+- B0/B1/B2 ablation report
+- qualitative packet
+- diagnostic summary
 
 ## 9. Out of Scope
 
-- Oracle-Obj residual-part training/evaluation
-- Pred-Obj / instance-source exploration
-- arbitrary backbone substitutions or non-faithful redesigns
-- claiming full end-to-end WSOVPS part parsing success
+- Pred-Obj support sourcing
+- bridge `Ψ`
+- adaptive alpha
+- null/none-of-listed channel
+- TV loss or auxiliary enhancement branches
 
 ## 10. Fallback / Next Step Rule
 
-### If PASS
-Freeze the accepted Stage-1 interface, archive the S1 evidence pack, and only then consider activating S2.
-
-### If FAIL
-Diagnose the smallest protocol-breaking issue and repair only that issue before rerunning.
-
-### If INCONCLUSIVE
-Close the smallest missing evidence or protocol-integrity gap first; do not broaden scope.
+If formal evidence remains partial, retain S2 as INCONCLUSIVE, preserve all run artifacts, and execute only the smallest bounded repair/rerun step needed to restore clean official benchmark-loop evidence.
 
 ## 11. Re-entry Condition
 
-Re-enter S1 after E0/E1 evidence changes, after a new smoke or formal benchmark result is produced, or after a long-running train/eval job completes and latest docs are synchronized.
+Re-enter S2 judgment only after canonical surfaces and takeover are coherent and the latest rerun provides official Seen/Unseen/Harmonic metrics through the clean formal path.
+
+## Failure meaning
+Failure means the current minimal scientific claim is not yet established. Downstream expansion must not proceed as if the mainline were already validated.
+
+## Unlocks
+Passing S2 unlocks:
+- E5
+- later expansion gates
+
+## Canonical pointers
+- gate doc: `docs/mainline/gates/scientific/S2_PP116_ORACLEOBJ_RESIDUAL_ONLY_FEASIBILITY.md`
+- registry: `docs/mainline/gates/REGISTRY.json`
+- status: `docs/mainline/STATUS.md`
+

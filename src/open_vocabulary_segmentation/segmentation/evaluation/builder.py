@@ -43,3 +43,10 @@ def build_seg_dataloader(dataset):
         pin_memory=False,
     )
     return data_loader
+
+
+def resolve_stage2_protocol_bindings(protocol_name):
+    """Resolve Stage-2 dataset/evaluator bindings without changing default path behavior."""
+    from .stage2_protocol_builder import resolve_stage2_protocol_bindings as _resolve
+
+    return _resolve(protocol_name)

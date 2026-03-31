@@ -1,0 +1,7 @@
+stage2_protocol:
+  enabled: true
+  name: pp116_oracle_obj
+  config_namespace: src/open_vocabulary_segmentation/configs/pp116
+  dataset_entrypoint: open_vocabulary_segmentation.segmentation.datasets.pp116_oracle_obj:get_pp116_oracle_obj_protocol_descriptor
+  evaluator_builder_entrypoint: open_vocabulary_segmentation.segmentation.evaluation.stage2_protocol_builder.resolve_stage2_protocol_bindings
+  notes: Structural Stage-2 PP116 protocol namespace for E3 landing only.

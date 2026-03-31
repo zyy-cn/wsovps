@@ -1,0 +1,17 @@
+timestamp: 2026-03-25T03:37:00Z
+remote_host: gpu4090d
+remote_pid: 2880061
+remote_log: /home/zyy/code/wsovps/logs/e1_gpu2_20260325T025348Z.log
+state: completed
+remote_state: none
+pullback_root: /tmp/wsovps_listener_pullback_20260325T0254
+synced_files:
+- local:docs/mainline/reports/takeover_latest.md -> /tmp/wsovps_listener_pullback_20260325T0254/docs/mainline/reports/takeover_latest.md
+- local:docs/mainline/reports/extraction_run_latest.md -> /tmp/wsovps_listener_pullback_20260325T0254/docs/mainline/reports/extraction_run_latest.md
+- local:docs/mainline/reports/feature_manifest_latest.md -> /tmp/wsovps_listener_pullback_20260325T0254/docs/mainline/reports/feature_manifest_latest.md
+- local:docs/mainline/reports/e1_readiness_latest.md -> /tmp/wsovps_listener_pullback_20260325T0254/docs/mainline/reports/e1_readiness_latest.md
+- local:docs/mainline/reports/acceptance_latest.txt -> /tmp/wsovps_listener_pullback_20260325T0254/docs/mainline/reports/acceptance_latest.txt
+- local:docs/mainline/reports/phase_gate_latest.txt -> /tmp/wsovps_listener_pullback_20260325T0254/docs/mainline/reports/phase_gate_latest.txt
+- local:docs/mainline/STATUS.md -> /tmp/wsovps_listener_pullback_20260325T0254/docs/mainline/STATUS.md
+- local:docs/mainline/CURRENT_EXECUTION_TICKET.md -> /tmp/wsovps_listener_pullback_20260325T0254/docs/mainline/CURRENT_EXECUTION_TICKET.md
+- remote:/home/zyy/code/wsovps/logs/e1_gpu2_20260325T025348Z.log -> /tmp/wsovps_listener_pullback_20260325T0254/logs/e1_gpu2_20260325T025348Z.log

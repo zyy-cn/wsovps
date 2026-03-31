@@ -63,6 +63,12 @@ from utils import (
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print("Device:", device)
 
+STAGE2_PROTOCOL_CHOICES = ("none", "pp116_oracle_obj", "ade234_instance_aware")
+STAGE2_PROTOCOL_DEFAULT_CONFIG = {
+    "pp116_oracle_obj": "src/open_vocabulary_segmentation/configs/pp116/default.yml",
+    "ade234_instance_aware": "src/open_vocabulary_segmentation/configs/ade234_parts/default.yml",
+}
+
 from mmseg.datasets import PIPELINES, PascalVOCDataset, PascalContextDataset, ADE20KDataset, CityscapesDataset, \
     COCOStuffDataset, PascalContextDataset59
 
@@ -107,8 +113,58 @@ def get_argparser():
 
     parser.add_argument("--job_id", type=int, default=0)
     parser.add_argument("--num_jobs", type=int, default=1)
+    parser.add_argument(
+        "--stage2-protocol",
+        type=str,
+        default="none",
+        choices=STAGE2_PROTOCOL_CHOICES,
+        help="Opt-in Stage-2 protocol selector. Default keeps legacy behavior.",
+    )
+    parser.add_argument(
+        "--stage2-protocol-config",
+        type=str,
+        default=None,
+        help="Optional explicit Stage-2 protocol config path override.",
+    )
 
     return parser
+
+
+def resolve_stage2_protocol_runtime_selection(cfg, args, logger):
+    """Resolve optional Stage-2 routing without altering legacy default behavior."""
+    if args.stage2_protocol == "none":
+        return None
+
+    from stage2_protocol import build_stage2_protocol
+
+    descriptor = build_stage2_protocol(args.stage2_protocol)
+    config_path = (
+        Path(args.stage2_protocol_config)
+        if args.stage2_protocol_config
+        else Path(STAGE2_PROTOCOL_DEFAULT_CONFIG[descriptor.protocol_id])
+    )
+    if not config_path.exists():
+        raise FileNotFoundError(
+            f"stage2 protocol config path does not exist: {config_path}"
+        )
+    OmegaConf.load(config_path)
+
+    with read_write(cfg):
+        cfg.stage2_protocol = OmegaConf.create(
+            {
+                "enabled": True,
+                "name": descriptor.protocol_id,
+                "config_path": str(config_path),
+                "dataset_entrypoint": descriptor.dataset_entrypoint,
+                "evaluator_builder_entrypoint": descriptor.evaluator_binding.builder_entrypoint,
+            }
+        )
+
+    logger.info(
+        "Stage-2 protocol routing enabled (opt-in): "
+        f"{descriptor.protocol_id} via {config_path}"
+    )
+    return descriptor
 
 def log_results(miou, proj_name, bench, result_dir, logger):
     os.makedirs(result_dir, exist_ok=True)
@@ -538,6 +594,7 @@ def main():
 
     os.makedirs(cfg.output, exist_ok=True)
     logger = get_logger(cfg)
+    resolve_stage2_protocol_runtime_selection(cfg, args, logger)
 
     # linear scale the learning rate according to total batch size, may not be optimal
     # linear_scaled_lr = cfg.train.base_lr * cfg.data.batch_size * world_size / 4096.0

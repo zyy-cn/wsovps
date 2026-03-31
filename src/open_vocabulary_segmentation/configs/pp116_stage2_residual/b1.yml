@@ -1,0 +1,17 @@
+stage2_protocol:
+  enabled: true
+  name: pp116_oracle_obj
+  config_namespace: src/open_vocabulary_segmentation/configs/pp116
+  dataset_entrypoint: open_vocabulary_segmentation.segmentation.datasets.pp116_oracle_obj:get_pp116_oracle_obj_protocol_descriptor
+  evaluator_builder_entrypoint: open_vocabulary_segmentation.segmentation.evaluation.stage2_protocol_builder.resolve_stage2_protocol_bindings
+
+stage2_residual:
+  enabled: true
+  mode: b1_obj_conditioned_no_residual
+  alpha_value: 1.0
+  tau_p: 0.07
+  topk_k: 2
+  support_scope: omega_o
+  competition_mode: sibling_competition
+  entrypoint: open_vocabulary_segmentation.stage2_residual.runtime:run_pp116_residual_route
+  notes: PP116-first E4 B1 selection profile.

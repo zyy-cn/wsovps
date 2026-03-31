@@ -1,0 +1,7 @@
+stage2_protocol:
+  enabled: true
+  name: ade234_instance_aware
+  config_namespace: src/open_vocabulary_segmentation/configs/ade234_parts
+  dataset_entrypoint: open_vocabulary_segmentation.segmentation.datasets.ade234_instance_aware:get_ade234_instance_aware_protocol_descriptor
+  evaluator_builder_entrypoint: open_vocabulary_segmentation.segmentation.evaluation.stage2_protocol_builder.resolve_stage2_protocol_bindings
+  notes: Structural Stage-2 ADE234 instance-aware namespace for E3 landing only.

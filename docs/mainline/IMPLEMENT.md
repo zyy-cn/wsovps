@@ -1,82 +1,60 @@
 # WSOVPS Mainline Implement Runbook
 
 ## 1. Before editing code
-Always do these first.
-
 ### Tier A — low-token default
 1. Run `python tools/validate_gate_registry.py`.
 2. Run `python tools/validate_state_views.py`.
-3. If both return OK, read:
+3. If OK, read only:
    - `docs/mainline/OPERATING_CONSTITUTION.md`
    - `docs/mainline/CURRENT_LOOP_BRIEF.md`
    - `docs/mainline/loop_state_latest.json`
    - `docs/mainline/CURRENT_GATE_PACK.md`
    - `docs/mainline/CURRENT_EXECUTION_TICKET.md`
    - latest reports under `docs/mainline/reports/*latest*`
+4. Confirm the smallest next valid step from `CURRENT_LOOP_BRIEF.md`.
 
 ### Tier B — canonical fallback
 If validation is STALE/CONFLICTED or anything is ambiguous:
 1. Read `AGENTS.md`.
-2. Read `docs/mainline/STATUS.md`.
+2. Determine gate mode and current active gate from `STATUS.md`.
 3. Read `docs/mainline/gates/REGISTRY.json` and `docs/mainline/gates/active_gate.json`.
-4. Read the active gate doc and required supporting engineering gate docs.
-5. Read `docs/mainline/METRICS_ACCEPTANCE.md`.
-6. Read `docs/mainline/EVIDENCE_REQUIREMENTS.md`.
-7. Read `docs/mainline/FAILURE_PLAYBOOK.md`.
-8. Read `docs/mainline/ENVIRONMENT_AND_VALIDATION.md`.
-9. Read `docs/mainline/CODEBASE_MAP.md`.
-10. Read `docs/mainline/DECISION_LOG.md` and `docs/mainline/CURRENT_EXECUTION_TICKET.md`.
-11. Regenerate derived views after any state-bearing change: `python tools/render_state_views.py`.
+4. Read the active engineering gate doc and the current scientific target doc.
+5. Identify blocking acceptance conditions from `METRICS_ACCEPTANCE.md`.
+6. Identify required evidence pack from `EVIDENCE_REQUIREMENTS.md`.
+7. Identify the smallest valid step and fallback.
+8. Read `docs/mainline/DECISION_LOG.md` if needed.
+9. After any state-changing iteration, regenerate derived views: `python tools/render_state_views.py` and `python tools/render_takeover.py`.
 
-Do not code before the active gate, blocker, evidence tier, next valid step, and current execution scope are clear.
+## 1A. Gate-registry-first rule
+If `docs/mainline/gates/REGISTRY.json` exists, it is the primary running-gate source. Do not infer current gate semantics from old outlines, old gate docs, or stale status prose.
 
 ## 2. Scope control
-- Edit only files needed for the active gate.
+- Edit only files needed for the current gate.
 - Do not enable default-off modules.
-- Do not widen a failing Stage-1 reproduction into a redesign.
-- Keep residual-part and Pred-Obj work out of scope until explicitly activated.
-- Do not treat smoke-tier evidence as formal PASS.
+- Do not broaden a failing experiment into a redesign.
+- Do not reinterpret environment failures as algorithmic failures.
+- In dual-gate mode, all engineering work must directly serve the current scientific target.
+- For `E2`, prioritize settlement of control-plane truth, archive mapping, registry/index integrity, and manifest-based reconciliation.
 
 ## 3. Command discipline
-- Local checks are informative.
-- Canonical PASS depends on `ENVIRONMENT_AND_VALIDATION.md`.
-- A gate PASS depends on both the acceptance contract and the evidence pack.
-- In dual-gate mode, overall progression depends on scientific PASS and required engineering PASS together.
-- Record files changed, commands run, local results, remote results, intended commit, remote HEAD, and whether they match.
+- Local checks are informative unless the environment contract declares them canonical.
+- A gate passes only if its acceptance contract and evidence pack are both satisfied.
+- For long-running gates, durable wait-state is mandatory.
 
 ## 4. Output discipline
 - Task artifacts belong under `codex/<task_dir>/`.
 - Mainline gate and acceptance artifacts belong under `docs/mainline/reports/`.
-- Do not write loose report files in the repo root.
-- `docs/mainline/reports/takeover_latest.md` is the mandatory user-facing handoff artifact for every meaningful execution cycle.
+- Do not write loose root-level output files.
 
 ## 5. Mandatory report outputs
-Every bounded iteration must write:
 - `docs/mainline/reports/phase_gate_latest.txt`
 - `docs/mainline/reports/acceptance_latest.txt`
 - `docs/mainline/reports/evidence_latest.txt`
-- `docs/mainline/reports/takeover_latest.md`
-
-When required, also write:
-- `docs/mainline/reports/worked_example_verification_latest.md`
-- `docs/mainline/reports/worked_example_verification_latest.json`
-- `docs/mainline/reports/training_watch_latest.txt`
-
-Then:
-- update `docs/mainline/STATUS.md` if state changed,
-- regenerate all derived views.
-
-Future execution prompts and iteration checklists must treat `takeover_latest.md` as the default upload-back artifact and must refresh it before declaring the cycle delivered.
+- any gate-specific summary/manifests required by the active gate
+- `docs/mainline/CURRENT_LOOP_BRIEF.md` and `docs/mainline/loop_state_latest.json`
+- `docs/mainline/WEB_SESSION_BRIEF.md`
+- `docs/mainline/state/CONTROL_PLANE_STATE.json`
+- `docs/mainline/takeover/TAKEOVER_LATEST.md`
 
 ## 6. Long-running training and durable wait-state
-If a train/eval job will outlive the current loop:
-1. start or confirm the job,
-2. write the job identity, artifact paths, completion condition, and next resume action into `STATUS.md`,
-3. mark the state `INCONCLUSIVE` or `BLOCKED` as appropriate,
-4. stop the loop instead of waiting indefinitely.
-
-Optional watcher policy:
-- `tools/watch_training_job.py` may be used under a durable runner such as `nohup` or `tmux`.
-- Prefer a structured terminal-state file over only free-text log parsing.
-- If later review depends on synchronized local latest docs, prepare `tools/local_watch_remote_latest.py` before the long job is launched.
-- Neither watcher nor listener may declare the scientific gate passed on its own.
+Later training/eval gates may use watcher/listener machinery. `E2` should not enable it unless the actual repo audit identifies a real active long job that must be reconciled.

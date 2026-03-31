@@ -46,7 +46,7 @@ Anti-drift rule: derived views never override canonical docs or executable truth
 9. execute only that scoped step when appropriate,
 10. evaluate scientific acceptance, engineering support acceptance, and overall progression when applicable,
 11. update `docs/mainline/STATUS.md`,
-12. write/update `docs/mainline/reports/phase_gate_latest.txt`, `acceptance_latest.txt`, `evidence_latest.txt`, `takeover_latest.md`, and any required worked-example outputs,
+12. write/update `docs/mainline/reports/phase_gate_latest.txt`, `acceptance_latest.txt`, `evidence_latest.txt`, and any required worked-example outputs,
 13. if a long-running job has been started or confirmed, update wait-state, ensure any required local latest-doc listener path is ready, and stop,
 14. regenerate derived state views for the next iteration: `python tools/render_state_views.py`
 15. stop.
@@ -69,15 +69,18 @@ When terminal mode is active:
 
 ## Fresh web-session cold-start protocol
 When a new web-side assistant session is used to continue the same project, reconstruct the current control-plane state in this order:
-1. `docs/mainline/WEB_SESSION_BRIEF.md`
-2. `docs/mainline/state/CONTROL_PLANE_STATE.json`
-3. `docs/mainline/DECISION_LOG.md`
-4. `docs/mainline/CURRENT_EXECUTION_TICKET.md`
-5. `docs/mainline/gates/active_gate.json` and the active gate document
-6. latest reports under `docs/mainline/reports/*latest*`
-
-## Handoff protocol
-- The default user-facing upload-back artifact is `docs/mainline/reports/takeover_latest.md`.
-- A bounded cycle is not considered delivered until `takeover_latest.md` has been refreshed.
+1. `docs/mainline/takeover/TAKEOVER_LATEST.md`
+2. `docs/mainline/WEB_SESSION_BRIEF.md`
+3. `docs/mainline/state/CONTROL_PLANE_STATE.json`
+4. `docs/mainline/DECISION_LOG.md`
+5. `docs/mainline/CURRENT_EXECUTION_TICKET.md`
+6. `docs/mainline/gates/active_gate.json` and the active gate document
+7. latest reports under `docs/mainline/reports/*latest*`
 
 This protocol restores context for discussion and gate control. Canonical docs and executable truth still win on conflict.
+
+## Skill routing hints
+- `delivery_mode=design_pack` or approved development-gate design pack landing step → `design-pack-execution`
+- experiment metadata / run / summary / closure mutation → `experiment-ledger-operator`
+- `long_running: true` step or managed wait-state → `long-job-orchestrator`
+- material state change or takeover refresh → `takeover-refresh-and-handoff`

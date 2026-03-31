@@ -1,5 +1,18 @@
-Evidence bundle
-- Environment: remote `wsovps` repaired in place on `gpu4090d`; torch 2.1.0+cu118 and CUDA 11.8 visible.
-- Path alignment: `data/pascal_voc` and `data/pascal_context` symlink targets exist and expose VOCdevkit trees; weights symlinks point to readable model weights.
-- Smoke: `clip`, `cv2`, `mmcv`, `mmengine`, `mmseg`, and `ProjectionLayer` import/build/forward all succeeded on the remote repo root.
-- Blocker: no `../coco2014_b14/*.pth` feature artifacts exist yet, so the faithful Stage-1 training input path remains unresolved.
+S2_OVPART_OFFICIAL_INPUT_ALIGNMENT_ALIGNED
+execution_repo_root: `/mnt/sda/zyy/code/wsovps`
+round_mode: `local_pack_materialization_then_remote_repair_validation_only`
+
+Current round evidence:
+1. Local pack materialized to remote path:
+   - `/mnt/sda/zyy/code/wsovps/docs/mainline/designs/GATE_S2/DP-S2-OVPART-OFFICIAL-INPUT-ALIGNMENT-R1/`
+2. Required pack files presence check: `PASS`
+3. Bounded repair iteration count: `1`
+4. Validation protocol result: `PASS`
+5. Anti-drift checklist result: `PASS` (8/8)
+6. No new smoke run launched: `true`
+7. No new formal rerun launched: `true`
+8. Canonical report:
+   - `docs/mainline/reports/s2_ovpart_official_input_alignment_latest.md`
+
+Next required evidence:
+- Proceed to the next authorized S2 execution round using the aligned official sample/input semantics baseline.
