@@ -3,8 +3,11 @@ from __future__ import annotations
 import importlib.util
 import sys
 from dataclasses import asdict, dataclass
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Mapping
+
+import torch
 
 try:
     from omegaconf import OmegaConf
@@ -82,6 +85,7 @@ def _coerce_scalar(raw: str) -> Any:
         return value
 
 
+@lru_cache(maxsize=32)
 def _load_structured_config(path: Path) -> dict[str, dict[str, Any]]:
     if OmegaConf is not None:
         cfg = OmegaConf.load(path)
@@ -129,6 +133,17 @@ def _resolve_mode_name(cfg: dict[str, dict[str, Any]], mode_name: str | None) ->
     if cfg_mode is None:
         raise ValueError("stage2_residual.mode is required in PP116 residual config")
     return str(cfg_mode)
+
+
+@lru_cache(maxsize=16)
+def _cached_build_stage2_protocol(protocol_name: str) -> Any:
+    return build_stage2_protocol(protocol_name)
+
+
+@lru_cache(maxsize=16)
+def _cached_resolve_stage2_evaluator_binding(protocol_id: str) -> Any:
+    descriptor = _cached_build_stage2_protocol(protocol_id)
+    return resolve_stage2_evaluator_binding(descriptor)
 
 
 def _default_inputs() -> dict[str, Any]:
@@ -188,10 +203,10 @@ def _resolve_inputs(
         )
         validate_formal_inputs_bundle(bundle)
         return {
-            "object_text": [float(v) for v in bundle.object_text],
-            "part_texts": _coerce_vector_list(bundle.part_texts),
-            "patch_features": _coerce_vector_list(bundle.patch_features),
-            "support_mask": [bool(v) for v in bundle.support_mask],
+            "object_text": bundle.object_text,
+            "part_texts": bundle.part_texts,
+            "patch_features": bundle.patch_features,
+            "support_mask": bundle.support_mask,
         }, False, bundle
 
     inputs = _default_inputs()
@@ -223,14 +238,8 @@ def _stable_offset(obj: str, part: str) -> float:
     return ((sum(token) % 200) - 100) / 10000.0
 
 
-def _emit_grouped_metrics(
-    *,
-    mode: ResidualMode,
-    assignments: dict[str, list[float]],
-    protocol_name: str,
-    formal_mode: bool,
-    formal_evaluator_output: Mapping[str, Any] | None,
-) -> dict[str, Any]:
+@lru_cache(maxsize=1)
+def _load_stage2_protocol_builder_module() -> Any:
     eval_builder_path = (
         Path(__file__).resolve().parent.parent
         / "segmentation"
@@ -248,12 +257,30 @@ def _emit_grouped_metrics(
         raise ImportError(f"unable to load stage2 protocol builder from {eval_builder_path}")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
+    return module
 
+
+@lru_cache(maxsize=16)
+def _resolve_grouped_part_classes(protocol_name: str) -> tuple[list[tuple[str, str]], list[tuple[str, str]]]:
+    module = _load_stage2_protocol_builder_module()
     bindings = module.resolve_stage2_protocol_bindings(protocol_name)
     payload = bindings.get("pp116_evaluator_payload", {})
     grouped = payload.get("grouped_part_classes", {})
-    seen_part_classes = [tuple(item) for item in grouped.get("seen_part_classes", [])]
-    unseen_part_classes = [tuple(item) for item in grouped.get("unseen_part_classes", [])]
+    seen = [tuple(item) for item in grouped.get("seen_part_classes", [])]
+    unseen = [tuple(item) for item in grouped.get("unseen_part_classes", [])]
+    return seen, unseen
+
+
+def _emit_grouped_metrics(
+    *,
+    mode: ResidualMode,
+    assignments: dict[str, list[float]],
+    protocol_name: str,
+    formal_mode: bool,
+    formal_evaluator_output: Mapping[str, Any] | None,
+) -> dict[str, Any]:
+    module = _load_stage2_protocol_builder_module()
+    seen_part_classes, unseen_part_classes = _resolve_grouped_part_classes(protocol_name)
 
     if formal_mode:
         if formal_evaluator_output is None:
@@ -314,8 +341,8 @@ def run_pp116_residual_route(
 
     mode = parse_residual_mode(_resolve_mode_name(cfg, mode_name))
     is_formal_mode = _resolve_formal_mode(cfg, formal_mode)
-    descriptor = build_stage2_protocol(protocol_name)
-    evaluator_binding = resolve_stage2_evaluator_binding(descriptor)
+    descriptor = _cached_build_stage2_protocol(protocol_name)
+    evaluator_binding = _cached_resolve_stage2_evaluator_binding(protocol_name)
     protocol_bindings = {
         "protocol_id": descriptor.protocol_id,
         "dataset_family": descriptor.dataset_family,
@@ -386,9 +413,12 @@ def run_pp116_residual_route(
         retrieval_scores,
         sibling_groups=[sibling_keys],
     )
-    support_features = [
-        feat for feat, keep in zip(inputs["patch_features"], inputs["support_mask"]) if keep
-    ]
+    if torch.is_tensor(inputs["patch_features"]) and torch.is_tensor(inputs["support_mask"]):
+        support_features = inputs["patch_features"][inputs["support_mask"]]
+    else:
+        support_features = [
+            feat for feat, keep in zip(inputs["patch_features"], inputs["support_mask"]) if keep
+        ]
     topk_spec = int(cfg.get("stage2_residual", {}).get("topk_k", 1))
     z_targets = build_topk_support_targets(
         assignments=assignments,
