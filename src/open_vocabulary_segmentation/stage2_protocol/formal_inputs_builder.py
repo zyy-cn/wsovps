@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Any, Mapping
 
+import torch
+
 from .formal_inputs_contract import FormalInputsBundle, validate_formal_inputs_bundle
 from .official_pp116_reference import canonical_sibling_part_keys
 
@@ -10,12 +12,15 @@ def _reorder_part_text_rows(
     *,
     input_part_keys: list[str],
     canonical_part_keys: list[str],
-    part_texts: list[list[float]],
-) -> list[list[float]]:
+    part_texts: Any,
+) -> Any:
     key_to_idx = {key: idx for idx, key in enumerate(input_part_keys)}
     missing = [key for key in canonical_part_keys if key not in key_to_idx]
     if missing:
         raise ValueError(f"missing sibling_part_keys required by canonical order: {missing}")
+    if torch.is_tensor(part_texts):
+        indices = torch.tensor([key_to_idx[key] for key in canonical_part_keys], device=part_texts.device)
+        return part_texts.index_select(0, indices)
     return [part_texts[key_to_idx[key]] for key in canonical_part_keys]
 
 
@@ -26,10 +31,10 @@ def build_formal_inputs_bundle(
     obj_sem_seg_file_name: str,
     category_id: int,
     sibling_part_keys: list[str],
-    object_text: list[float],
-    part_texts: list[list[float]],
-    patch_features: list[list[float]],
-    support_mask: list[bool],
+    object_text: Any,
+    part_texts: Any,
+    patch_features: Any,
+    support_mask: Any,
     formal_evaluator_output: Mapping[str, Any] | None = None,
     evaluator_output_mode: str = "runtime",
     object_class_key: str | None = None,
@@ -51,18 +56,29 @@ def build_formal_inputs_bundle(
     normalized_part_texts = _reorder_part_text_rows(
         input_part_keys=[str(k).strip() for k in sibling_part_keys],
         canonical_part_keys=canonical_keys,
-        part_texts=[[float(v) for v in row] for row in part_texts],
+        part_texts=part_texts,
     )
+    if torch.is_tensor(object_text) and not object_text.is_cuda:
+        raise AssertionError("formal bundle object_text tensor must be on CUDA")
+    if torch.is_tensor(normalized_part_texts) and not normalized_part_texts.is_cuda:
+        raise AssertionError("formal bundle part_texts tensor must be on CUDA")
+    if torch.is_tensor(patch_features) and not patch_features.is_cuda:
+        raise AssertionError("formal bundle patch_features tensor must be on CUDA")
+    if torch.is_tensor(support_mask):
+        if support_mask.dtype != torch.bool:
+            raise AssertionError("formal bundle support_mask tensor must have dtype=bool")
+        if not support_mask.is_cuda:
+            raise AssertionError("formal bundle support_mask tensor must be on CUDA")
     bundle = FormalInputsBundle(
         file_name=str(file_name),
         sem_seg_file_name=str(sem_seg_file_name),
         obj_sem_seg_file_name=str(obj_sem_seg_file_name),
         category_id=int(category_id),
         sibling_part_keys=canonical_keys,
-        object_text=[float(v) for v in object_text],
+        object_text=object_text,
         part_texts=normalized_part_texts,
-        patch_features=[[float(v) for v in row] for row in patch_features],
-        support_mask=[bool(v) for v in support_mask],
+        patch_features=patch_features,
+        support_mask=support_mask,
         formal_evaluator_output=dict(formal_evaluator_output or {}),
         evaluator_output_mode=str(evaluator_output_mode),
         object_class_key=str(object_class_key).strip() if object_class_key else None,
@@ -79,4 +95,3 @@ def build_formal_inputs_bundle(
     )
     validate_formal_inputs_bundle(bundle)
     return bundle
-

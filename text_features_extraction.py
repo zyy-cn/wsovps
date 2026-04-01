@@ -17,7 +17,7 @@ from src.hooks import get_all_out_tokens, feats
 
 def run_bert_extraction(model_name, ann_path, batch_size, out_path, extract_dense_out=False, extract_second_last_dense_out=False,
                           write_as_wds=False, num_shards=25, n_in_splits=4, in_batch_offset=0, out_offset=0):
-    device = 'cuda' if torch.cuda.is_available else 'cpu'
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
     
     if 'bert' in model_name:
         model_type = 'bert'
@@ -80,6 +80,8 @@ def run_bert_extraction(model_name, ann_path, batch_size, out_path, extract_dens
                     data['annotations'][j]['text_argmax'] = inputs.argmax(dim=-1)[j - start].to('cpu')
                 
     print("Feature extraction done!")
+    if torch.cuda.is_available():
+        print(f"CUDA max memory allocated bytes: {torch.cuda.max_memory_allocated()}")
         
 
     if write_as_wds:
@@ -89,7 +91,9 @@ def run_bert_extraction(model_name, ann_path, batch_size, out_path, extract_dens
         if out_path is None:
             # we use as output path the ann_path but with the extension pth
             out_path = os.path.splitext(ann_path)[0] + '.pth' 
-        torch.save(data, out_path)
+        tmp_out = f"{out_path}.tmp"
+        torch.save(data, tmp_out)
+        os.replace(tmp_out, out_path)
     print(f"Features saved at {out_path}")
 
 def main():

@@ -44,8 +44,11 @@ def train_and_eval(config_file, train_dataset, val_dataset, texts=None, images=N
 
     # plot_losses(train_losses, val_losses)
 
-    torch.save(model.state_dict(), f"{out_path}.pth")
-    print(f"Saved model at {out_path}.pth\n")
+    tmp_out = f"{out_path}.pth.tmp"
+    final_out = f"{out_path}.pth"
+    torch.save(model.state_dict(), tmp_out)
+    os.replace(tmp_out, final_out)
+    print(f"Saved model at {final_out}\n")
     
     if model_type == 'patch_tokens':
         # if we are working with weighted attention head, images test tensors must be calculated after the model is trained

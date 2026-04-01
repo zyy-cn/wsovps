@@ -39,34 +39,24 @@ def map_text_residual_to_visual(
     residual_texts: Iterable[list[float]],
     formal_mode: bool,
 ) -> list[list[float]]:
-    """Deterministic object-conditioned Phi_o adapter for repair-round formal mode.
+    """Residual-to-visual adapter for the aligned B2 formal path.
 
-    This is intentionally lightweight and deterministic, but materially non-identity:
-    each channel mixes residual and neighboring channels with object-conditioned weights.
+    The aligned formal path must not use any deterministic repair-round mixing. The
+    residuals are already formed in the projected text space; the formal B2 route
+    keeps the learned projector as the only mapping and then L2-normalizes the
+    resulting residual directions before they are added to the object prototype.
     """
     out: list[list[float]] = []
     dim = len(object_text)
     if dim == 0:
         raise ValueError("object_text must be non-empty")
-    obj = _l2_normalize(object_text)
     for residual in residual_texts:
         if len(residual) != dim:
             raise ValueError("residual_text dimension mismatch for Phi_o mapping")
-        if not formal_mode:
-            out.append(_l2_normalize(list(residual)))
-            continue
-        mapped: list[float] = []
-        for i in range(dim):
-            j = (i + 1) % dim
-            k = (i + 2) % dim
-            # Non-identity object-conditioned mixing.
-            value = (
-                0.70 * residual[i]
-                + 0.20 * obj[i] * residual[j]
-                - 0.10 * obj[j] * residual[k]
-            )
-            mapped.append(value)
-        out.append(_l2_normalize(mapped))
+        # The aligned B2 formal route intentionally keeps only the learned projector
+        # output, normalized, with no extra object-conditioned mixing.
+        _ = formal_mode
+        out.append(_l2_normalize(list(residual)))
     return out
 
 
@@ -83,7 +73,7 @@ def build_visual_mapping_spec(
             protocol_builder_entrypoint=protocol_builder_entrypoint,
             alpha_mode="fixed",
             alpha_value=alpha_value,
-            notes="B2 residual-only path maps textual residual via protocol-aligned Phi_o route.",
+            notes="B2 aligned formal path uses Phi_o-only residual normalization; deterministic mixing disabled.",
         )
     return ResidualVisualMappingSpec(
         mode=mode,

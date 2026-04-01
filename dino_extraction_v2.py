@@ -3,6 +3,7 @@ import clip
 import json
 import math
 import os
+import hashlib
 import requests
 import webdataset as wds
 import tarfile
@@ -18,6 +19,35 @@ from tqdm import tqdm
 from transformers import Blip2Processor, Blip2ForConditionalGeneration, AddedToken
 
 import sys
+
+
+def _load_dinov2_local(model_name, local_repo, local_weight):
+    if not local_repo:
+        raise ValueError("local_repo is required for local DINOv2 loading")
+    model = torch.hub.load(local_repo, model_name, source='local')
+    load_meta = {"weight_path": None, "weight_sha256": None}
+    if local_weight:
+        ckpt_path = os.path.abspath(local_weight)
+        ckpt = torch.load(ckpt_path, map_location='cpu')
+        state = ckpt.get('model', ckpt) if isinstance(ckpt, dict) else ckpt
+        if not isinstance(state, dict):
+            raise ValueError(f"Unsupported checkpoint format in {ckpt_path}")
+        missing, unexpected = model.load_state_dict(state, strict=False)
+        load_meta.update(
+            {
+                "weight_path": ckpt_path,
+                "missing_keys": len(missing),
+                "unexpected_keys": len(unexpected),
+            }
+        )
+        h = hashlib.sha256()
+        with open(ckpt_path, "rb") as f:
+            for chunk in iter(lambda: f.read(1024 * 1024), b""):
+                h.update(chunk)
+        load_meta["weight_sha256"] = h.hexdigest()
+    return model, load_meta
+
+
 # Initialize global variables
 # feats = {}
 # num_global_tokens = 1
@@ -43,8 +73,9 @@ def generate_caption(model, processor, images, prompt="a photography of"):
 def run_dinov2_extraction(model_name, data_dir, ann_path, batch_size, resize_dim=518, crop_dim=518, out_path=None, 
                           write_as_wds=False, num_shards=25, n_in_splits=4, in_batch_offset=0, out_offset=0,
                           extract_cls=False, extract_avg_self_attn=False, extract_second_last_out=False,
-                          extract_patch_tokens=False, extract_self_attn_maps=False, extract_disentangled_self_attn=False, blip_model_name=None):
-    device = 'cuda' if torch.cuda.is_available else 'cpu'
+                          extract_patch_tokens=False, extract_self_attn_maps=False, extract_disentangled_self_attn=False, blip_model_name=None,
+                          dinov2_local_repo=None, dinov2_local_weight=None):
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
     
     # global num_global_tokens, num_patch_tokens, num_tokens, embed_dim, num_attn_heads, scale, batch_size_
     
@@ -66,8 +97,18 @@ def run_dinov2_extraction(model_name, data_dir, ann_path, batch_size, resize_dim
     
     # loading the model
     if 'dinov2' in model_name:
-        model_family = 'facebookresearch/dinov2'
-        model = torch.hub.load(model_family, model_name)
+        if dinov2_local_repo:
+            model, load_meta = _load_dinov2_local(model_name, dinov2_local_repo, dinov2_local_weight)
+            print(f"Using local DINOv2 repo: {dinov2_local_repo}")
+            if load_meta.get("weight_path"):
+                print(
+                    "Loaded local DINOv2 weight: "
+                    f"{load_meta['weight_path']} sha256={load_meta['weight_sha256']} "
+                    f"missing={load_meta.get('missing_keys')} unexpected={load_meta.get('unexpected_keys')}"
+                )
+        else:
+            model_family = 'facebookresearch/dinov2'
+            model = torch.hub.load(model_family, model_name)
         image_transforms = T.Compose([
             T.Resize(resize_dim, interpolation=T.InterpolationMode.BICUBIC),
             T.CenterCrop(crop_dim),
@@ -273,6 +314,8 @@ def run_dinov2_extraction(model_name, data_dir, ann_path, batch_size, resize_dim
                 
     print("Feature extraction done!")
     print(f"Failed to extract {n_errors} of {len(data['images'])}")
+    if torch.cuda.is_available():
+        print(f"CUDA max memory allocated bytes: {torch.cuda.max_memory_allocated()}")
     
     
     if write_as_wds:
@@ -282,7 +325,9 @@ def run_dinov2_extraction(model_name, data_dir, ann_path, batch_size, resize_dim
         if out_path is None:
             # we use as output path the ann_path but with the extension pth
             out_path = os.path.splitext(ann_path)[0] + '.pth' 
-        torch.save(data, out_path)
+        tmp_out = f"{out_path}.tmp"
+        torch.save(data, tmp_out)
+        os.replace(tmp_out, out_path)
         print(f"Features saved at {out_path}")
 
 def main():
@@ -292,6 +337,8 @@ def main():
     parser.add_argument('--data_dir', type=str, default="../coco/", help="Directory of the images") 
     parser.add_argument('--blip_model', type=str, default=None, help="BLIP model to recaption with. If None we will use standard captions. For CC3M we use Salesforce/blip2-opt-6.7b-coco") 
     parser.add_argument('--model', type=str, default="dinov2_vitl14_reg", help="Model configuration to extract features from")
+    parser.add_argument('--dinov2_local_repo', type=str, default=None, help="Local DINOv2 repo path for offline loading")
+    parser.add_argument('--dinov2_local_weight', type=str, default=None, help="Local DINOv2 weight path for explicit state_dict loading")
     parser.add_argument('--resize_dim', type=int, default=518, help="Resize dimension")
     parser.add_argument('--crop_dim', type=int, default=518, help="Crop dimension")
     parser.add_argument('--extract_cls', default=False, action="store_true", help="If setted, adds the CLS token to the output")
@@ -311,6 +358,6 @@ def main():
     run_dinov2_extraction(args.model, args.data_dir, args.ann_path, args.batch_size, args.resize_dim, args.crop_dim, args.out_path,
                           args.write_as_wds, args.n_shards, args.n_in_split, args.in_batch_offset, args.out_offset,
                           args.extract_cls, args.extract_avg_self_attn, args.extract_second_last_out, args.extract_patch_tokens, args.extract_self_attn_maps,
-                          args.extract_disentangled_self_attn, args.blip_model)
+                          args.extract_disentangled_self_attn, args.blip_model, args.dinov2_local_repo, args.dinov2_local_weight)
 if __name__ == '__main__':
     main()
