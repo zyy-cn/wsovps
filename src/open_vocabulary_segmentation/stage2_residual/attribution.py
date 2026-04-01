@@ -8,7 +8,12 @@ import torch
 from torch import nn
 
 from .competition import apply_sibling_competition, build_topk_support_targets
-from .losses import ResidualLossSpec, build_loss_spec_from_condition, compute_stage2_losses
+from .losses import (
+    ResidualLossSpec,
+    build_loss_spec_from_condition,
+    compute_stage2_losses,
+    compute_stage2_losses_tensor,
+)
 from .modes import ResidualMode
 from .runtime import ResidualAttributionState, build_pp116_residual_attribution_state
 from .retrieval import run_object_inside_retrieval
@@ -261,15 +266,15 @@ def run_attribution_condition(
             support_features=support_features,
             topk_spec=topk_spec,
         )
-        losses = compute_stage2_losses(
+        losses_tensor = compute_stage2_losses_tensor(
             assignments,
             v_part=current_bank,
             z_targets=z_targets,
             loss_spec=loss_spec,
         )
-        total = sum(losses.values()) if losses else torch.zeros((), device=device, dtype=torch.float32)
+        total = sum(losses_tensor.values()) if losses_tensor else torch.zeros((), device=device, dtype=torch.float32)
         loss_trace.append(float(total.detach().item()))
-        if optimizer is not None and losses:
+        if optimizer is not None and losses_tensor:
             optimizer.zero_grad()
             total.backward()
             optimizer.step()

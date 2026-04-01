@@ -120,6 +120,27 @@ def compute_l_inst(
     return _mean(penalties)
 
 
+def compute_l_inst_tensor(
+    v_part: dict[str, list[float] | torch.Tensor],
+    z_targets: dict[str, list[float] | torch.Tensor],
+) -> torch.Tensor:
+    penalties: list[torch.Tensor] = []
+    for key, pred in v_part.items():
+        target = z_targets.get(key)
+        if target is None:
+            continue
+        pred_t = pred if torch.is_tensor(pred) else torch.as_tensor(pred)
+        target_t = (
+            target.to(device=pred_t.device, dtype=pred_t.dtype)
+            if torch.is_tensor(target)
+            else torch.as_tensor(target, dtype=pred_t.dtype, device=pred_t.device)
+        )
+        penalties.append((1.0 - _tensor_cosine(pred_t, target_t)).mean())
+    if not penalties:
+        return torch.zeros((), dtype=torch.float32)
+    return torch.stack([pen.to(dtype=torch.float32) for pen in penalties], dim=0).mean()
+
+
 def compute_l_overlap(
     assignments: dict[str, list[float] | torch.Tensor],
     overlap_pairs: list[tuple[str, str]] | None = None,
@@ -156,6 +177,37 @@ def compute_l_overlap(
     return _mean(penalties)
 
 
+def compute_l_overlap_tensor(
+    assignments: dict[str, list[float] | torch.Tensor],
+    overlap_pairs: list[tuple[str, str]] | None = None,
+) -> torch.Tensor:
+    if not assignments:
+        return torch.zeros((), dtype=torch.float32)
+    keys = list(assignments.keys())
+    if overlap_pairs is None:
+        overlap_pairs = [(keys[i], keys[j]) for i in range(len(keys)) for j in range(i + 1, len(keys))]
+    penalties: list[torch.Tensor] = []
+    for lhs, rhs in overlap_pairs:
+        if lhs not in assignments or rhs not in assignments:
+            continue
+        lhs_scores = assignments[lhs]
+        rhs_scores = assignments[rhs]
+        lhs_t = lhs_scores if torch.is_tensor(lhs_scores) else torch.as_tensor(lhs_scores)
+        rhs_t = (
+            rhs_scores.to(device=lhs_t.device, dtype=lhs_t.dtype)
+            if torch.is_tensor(rhs_scores)
+            else torch.as_tensor(rhs_scores, dtype=lhs_t.dtype, device=lhs_t.device)
+        )
+        if lhs_t.shape[0] != rhs_t.shape[0]:
+            raise ValueError("L_overlap assignment length mismatch")
+        num = (lhs_t * rhs_t).sum()
+        den = lhs_t.sum() + rhs_t.sum() + 1e-8
+        penalties.append(num / den)
+    if not penalties:
+        return torch.zeros((), dtype=torch.float32)
+    return torch.stack([pen.to(dtype=torch.float32) for pen in penalties], dim=0).mean()
+
+
 def compute_stage2_losses(
     assignments: dict[str, list[float] | torch.Tensor],
     *,
@@ -180,4 +232,30 @@ def compute_stage2_losses(
             raise ValueError("compute_stage2_losses requires v_part/z_targets or supervision")
     if spec.use_l_overlap:
         losses["l_overlap"] = compute_l_overlap(assignments, overlap_pairs=overlap_pairs)
+    return losses
+
+
+def compute_stage2_losses_tensor(
+    assignments: dict[str, list[float] | torch.Tensor],
+    *,
+    v_part: dict[str, list[float] | torch.Tensor] | None = None,
+    z_targets: dict[str, list[float] | torch.Tensor] | None = None,
+    supervision: dict[str, list[float] | torch.Tensor] | None = None,
+    overlap_pairs: list[tuple[str, str]] | None = None,
+    loss_spec: ResidualLossSpec | None = None,
+) -> dict[str, torch.Tensor]:
+    spec = loss_spec or build_default_loss_spec()
+    losses: dict[str, torch.Tensor] = {}
+    if spec.use_l_inst:
+        if v_part is not None and z_targets is not None:
+            losses["l_inst"] = compute_l_inst_tensor(v_part, z_targets)
+        elif supervision is not None:
+            losses["l_inst"] = compute_l_inst_tensor(
+                {k: assignments[k] for k in assignments},
+                {k: supervision.get(k, assignments[k]) for k in assignments},
+            )
+        else:
+            raise ValueError("compute_stage2_losses_tensor requires v_part/z_targets or supervision")
+    if spec.use_l_overlap:
+        losses["l_overlap"] = compute_l_overlap_tensor(assignments, overlap_pairs=overlap_pairs)
     return losses
