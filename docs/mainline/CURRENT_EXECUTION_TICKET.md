@@ -3,13 +3,14 @@
 This file is the canonical current-round scope for Codex.
 
 ## Objective
-Run S2A Oracle-Obj loss mechanism formal validation (R2) using the landed E4A attribution surface; GPU1/2 only; no Pred-Obj; preserve S2 PASS; refresh takeover.
+Run S2A Oracle-Obj loss mechanism training formal validation (R3) using the landed E4A attribution surface; GPU1/2 only; no Pred-Obj; preserve S2 PASS; refresh takeover.
 
 ## Active gate binding
 - active_gate: `S2A`
 - active_scientific_gate: `S2A`
+- supporting_engineering_gates: `['E4A']`
 - evidence_tier: `formal`
-- formal_standard_version: `wsovps-s2a-loss-mechanism-formal-r2`
+- formal_standard_version: `wsovps-s2a-loss-mechanism-training-formal-r3`
 
 ## Role / execution binding
 - role_boundary_ack: `required`
@@ -22,31 +23,32 @@ Run S2A Oracle-Obj loss mechanism formal validation (R2) using the landed E4A at
 - git_boundary: `false`
 - delivery_mode: `design_pack`
 - design_pack_required: `true`
-- design_pack_id: `DP-S2A-ORACLEOBJ-LOSS-MECHANISM-FORMAL-R2`
+- design_pack_id: `DP-S2A-ORACLEOBJ-LOSS-MECHANISM-TRAINING-FORMAL-R3`
 - design_pack_status: `approved`
 - allowed_design_deviation: `false`
-- milestone_id: `s2a-formal-r2`
+- milestone_id: `s2a-training-formal-r3`
 - code_change_expected: `true`
 - runtime_override_only: `false`
-- working_tree_clean: `true`
+- working_tree_clean: `false`
 - local_snapshot_id: `not-yet-declared`
 - remote_snapshot_id: `not-yet-declared`
 - remote_tree_verified: `true`
 - config_snapshot_path: `not-yet-declared`
-- governance_ingestion_note: `S2A formal bound to landed E4A attribution surface; E4A smoke evidence is settled and preserved; no Pred-Obj or evaluator drift`
-- archive_sync_note: `E4A smoke closeout preserved; S2A formal matrix pending on GPU1/2 only`
+- governance_ingestion_note: `S2A training-formal bound to landed E4A attribution surface; E4A smoke evidence is settled and preserved; no Pred-Obj or evaluator drift`
+- archive_sync_note: `E4A smoke closeout preserved; S2A training matrix pending on GPU1/2 only`
 
 ## Experiment binding
 - experiment_id: `EXP-S2A-ORACLEOBJ-LOSS-MECHANISM-VALIDATION`
-- run_id: `RUN-S2A-FORMAL-R2`
+- run_id: `RUN-S2A-TRAINING-FORMAL-R3`
 - question_type: `formal_scientific_validation`
 - level: `formal`
 - eligible_for_gate_judgment: `true`
-- expected_next_status: `formal_evidence_ready`
+- expected_next_status: `training_evidence_ready`
 
 ## Bound design packs
 - `DP-E4A-ORACLEOBJ-LOSS-ATTRIBUTION-IMPLEMENTATION-R1`
 - `DP-S2A-ORACLEOBJ-LOSS-MECHANISM-VALIDATION-R1`
+- `DP-S2A-ORACLEOBJ-LOSS-MECHANISM-TRAINING-FORMAL-R3`
 
 ## Round constraints
 - Preserve S2 PASS evidence and provenance.

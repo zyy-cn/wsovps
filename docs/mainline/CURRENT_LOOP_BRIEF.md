@@ -1,8 +1,8 @@
 # Current Loop Brief (Derived View)
 
-- generated_at: `2026-04-01T12:25:48`
-- source_digest: `ba7dec1cd7e513f780488d5bae62251138d3ee0ab20971d50240053636d07b8a`
-- state_version: `d9c97546b95e`
+- generated_at: `2026-04-01T12:38:31`
+- source_digest: `83a73abb2322f8b2985421d4ef4d786616c7fda33f82c3a55f2681602d44ffe1`
+- state_version: `d14c57b5d305`
 
 ## Current gate & tier
 - active_gate: `S2A`
@@ -16,7 +16,7 @@
 Review the E4A/S2A design-intake overlay and keep the local canonical truth synchronized.
 
 ## Current execution scope objective
-Run S2A Oracle-Obj loss mechanism formal validation (R2) using the landed E4A attribution surface; GPU1/2 only; no Pred-Obj; preserve S2 PASS; refresh takeover.
+Run S2A Oracle-Obj loss mechanism training formal validation (R3) using the landed E4A attribution surface; GPU1/2 only; no Pred-Obj; preserve S2 PASS; refresh takeover.
 
 ## Active experiments
 - count: `4`

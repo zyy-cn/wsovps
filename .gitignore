@@ -13,6 +13,7 @@ runs/
 codex/
 outputs/
 docs/
+zip/
 pre_doc/
 prompts/
 __pycache__/
