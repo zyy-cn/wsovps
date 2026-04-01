@@ -2,9 +2,9 @@
 
 This is the primary handoff artifact for web-side GPT review.
 
-- generated_at: `2026-04-01T11:49:45`
-- source_digest: `4d7112933ec15f042aa6ecfeb3a51755e6bec635f21ab8a85b864aaabca2abf8`
-- state_version: `e8e7235c9f6a`
+- generated_at: `2026-04-01T12:18:56`
+- source_digest: `772962270641364dfcc06cc4ab696bac25f7fba2d5572abe12ff821db5069128`
+- state_version: `e1937a213423`
 
 ## Current control-plane truth
 - active_gate: `E4A`
@@ -15,16 +15,16 @@ This is the primary handoff artifact for web-side GPT review.
 - overall_status: `s2_passed_next_target_ready`
 
 ## Current execution ticket
-- objective: Implement the minimum E4A Oracle-Obj loss-attribution surface from the approved implementation pack, run the bounded E4A smoke only, preserve the settled S2 PASS evidence, and refresh the authoritative latest/takeover surfaces.
+- objective: Run S2A Oracle-Obj loss mechanism formal validation (R2) using the landed E4A attribution surface; GPU1/2 only; no Pred-Obj; preserve S2 PASS; refresh takeover.
 - delivery_mode: `design_pack`
-- design_pack_id: `DP-E4A-ORACLEOBJ-LOSS-ATTRIBUTION-IMPLEMENTATION-R2`
+- design_pack_id: `DP-S2A-ORACLEOBJ-LOSS-MECHANISM-FORMAL-R2`
 - design_pack_status: `approved`
-- milestone_id: `e4a-implementation-r2`
-- experiment_id: `EXP-E4A-ORACLEOBJ-LOSS-ATTRIBUTION-INSTRUMENTATION`
-- run_id: `RUN-E4A-ATTRIBUTION-SMOKE-R1`
-- question_type: `implementation_smoke`
-- level: `implementation`
-- expected_next_status: `smoke_passed`
+- milestone_id: `s2a-formal-r2`
+- experiment_id: `EXP-S2A-ORACLEOBJ-LOSS-MECHANISM-VALIDATION`
+- run_id: `RUN-S2A-FORMAL-R2`
+- question_type: `formal_scientific_validation`
+- level: `formal`
+- expected_next_status: `formal_evidence_ready`
 - long_running: `False`
 - watcher_required: `False`
 - listener_required: `False`
@@ -33,32 +33,15 @@ This is the primary handoff artifact for web-side GPT review.
 - tree_sha: `not-yet-declared`
 - working_tree_clean: `true`
 - config_snapshot_path: `not-yet-declared`
-- governance_ingestion_note: `pre-flight code-truth check passed; implementation pack assumptions still match the current residual runtime`
-- archive_sync_note: `remote alignment verified; bounded commit and smoke will be mirrored after code landing`
+- governance_ingestion_note: `S2A formal bound to landed E4A attribution surface; E4A smoke evidence is settled and preserved; no Pred-Obj or evaluator drift`
+- archive_sync_note: `E4A smoke closeout preserved; S2A formal matrix pending on GPU1/2 only`
 - allowed_tools: `[]`
 - formal_pass: not-yet-declared
-- allowed_scope: - Implement the minimum E4A loss-attribution surface in the approved residual-layer files. - Run the bounded E4A smoke only. - Preserve the settled S2 PASS evidence and provenance. - Refresh canonical latest/takeover surfaces and sync the implementation result back to local.
-
-## E4A smoke outcome
-- run_id: `RUN-E4A-ATTRIBUTION-SMOKE-R1`
-- conditions: `full`, `minus_l_inst`, `minus_l_overlap`, `only_l_inst`, `only_l_overlap`, `zero_loss`
-- all_conditions_passed: `true`
-- zero_loss_no_update: `true`
-- grouped_metric_schema_unchanged: `true`
-- evaluator_semantics_unchanged: `true`
-- dino_weight_path: `/mnt/sda/zyy/weight/DINOv2/dinov2_vitb14_reg4_pretrain.pth`
-- dino_weight_sha256: `73182a088cf94833c94b1666d1c99e02fe87e2007bff57b564fb6206e25dba71`
-- smoke_reports:
-  - `docs/mainline/reports/e4a_switch_matrix_note_latest.md`
-  - `docs/mainline/reports/e4a_instrumentation_mapping_latest.md`
-  - `docs/mainline/reports/e4a_smoke_summary_latest.md`
-  - `docs/mainline/reports/e4a_compatibility_note_latest.md`
-  - `docs/mainline/reports/e4a_delta_review_packet_latest.md`
-- next_step_category: `S2A formal remains out of scope; keep E4A smoke evidence settled`
+- allowed_scope: - Run the bounded S2A formal matrix on the landed E4A attribution surface. - Preserve the settled S2 PASS evidence and the E4A smoke evidence. - Refresh canonical latest/takeover surfaces and sync the formal result back to local.
 
 ## Experiment Ledger
 - active_count: `4`
-- current_ticket_experiment: `EXP-E4A-ORACLEOBJ-LOSS-ATTRIBUTION-INSTRUMENTATION`
+- current_ticket_experiment: `EXP-S2A-ORACLEOBJ-LOSS-MECHANISM-VALIDATION`
 - active_experiments:
 [
   {

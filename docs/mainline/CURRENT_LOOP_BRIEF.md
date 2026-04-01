@@ -1,11 +1,11 @@
 # Current Loop Brief (Derived View)
 
-- generated_at: `2026-04-01T11:49:45`
-- source_digest: `413f7b74de2896627dea7c95ce941a10f40efa704c746d711b5fa551de05d83a`
-- state_version: `e1937a213423`
+- generated_at: `2026-04-01T12:18:56`
+- source_digest: `632c38d85ecfdeb0beeb9cc90eb6834da1776b3ed8e6d16a58f881410a14951f`
+- state_version: `faba12373022`
 
 ## Current gate & tier
-- active_gate: `E4A`
+- active_gate: `S2A`
 - active_scientific_gate: `S2A`
 - evidence_tier: `design`
 
@@ -16,7 +16,7 @@
 Review the E4A/S2A design-intake overlay and keep the local canonical truth synchronized.
 
 ## Current execution scope objective
-Implement the minimum E4A Oracle-Obj loss-attribution surface from the approved implementation pack, run the bounded E4A smoke only, preserve the settled S2 PASS evidence, and refresh the authoritative latest/takeover surfaces.
+Run S2A Oracle-Obj loss mechanism formal validation (R2) using the landed E4A attribution surface; GPU1/2 only; no Pred-Obj; preserve S2 PASS; refresh takeover.
 
 ## Active experiments
 - count: `4`

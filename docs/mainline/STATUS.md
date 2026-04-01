@@ -3,21 +3,21 @@
 This file tracks the authoritative state for document-driven automation.
 
 ## Current state
-- Current code snapshot status: `E4A implementation smoke passed; S2 PASS evidence preserved; design-intake overlay remains deployed`
+- Current code snapshot status: `S2A formal mechanism validation bound; S2 PASS evidence preserved; E4A smoke evidence settled`
 - Gate mode: `science-first-dual-gate`
-- Active gate: `E4A`
+- Active gate: `S2A`
 - Active scientific gate: `S2A`
 - Supporting engineering gate(s): `E4A`
 - Gate registry mode: `enabled`
 - Gate registry: `docs/mainline/gates/REGISTRY.json`
 - Gate registry version: `wsovps-new-mainline-v1-private`
-- Active gate definition file (from registry): `docs/mainline/gates/engineering/E4A_ORACLEOBJ_LOSS_ATTRIBUTION_INSTRUMENTATION.md`
-- Active gate version (from registry): `wsovps-e4a-v1`
-- Git commit SHA: `1de2946160385b8632e391a4cc103bb7cb2b6c46`
-- Git tree SHA: `ca3490c52c6ea7c8d79496fe795bde6ada989c3a`
+- Active gate definition file (from registry): `docs/mainline/gates/scientific/S2A_ORACLEOBJ_LOSS_MECHANISM_VALIDATION.md`
+- Active gate version (from registry): `wsovps-s2a-v1`
+- Git commit SHA: `not-yet-declared`
+- Git tree SHA: `not-yet-declared`
 - Working tree clean: `false`
 - Terminal mainline mode: `not-terminal`
-- Scientific status: `active-s2a-design-intake`
+- Scientific status: `active-s2a-formal-validation`
 - Engineering support status: `prepared`
 - Overall progression eligibility: `s2_passed_next_target_ready`
 - Evidence bundle reviewed: `yes`
@@ -31,19 +31,19 @@ This file tracks the authoritative state for document-driven automation.
 - Remote snapshot id: `not-yet-declared`
 - Takeover refreshed at: `rendered-by-validation-pass`
 - Local latest-doc listener status: `not-required-for-design-intake-round`
-- Governance ingestion status: `new gate pack overlay injected into active execution context; no implementation or benchmark execution performed`
+- Governance ingestion status: `S2A formal entry bound to landed E4A attribution surface; no Pred-Obj or evaluator drift`
 
 ## E4A/S2A overlay intake update
 - overlay_source: `zip/wsovps_e4a_s2a_gate_overlay`
 - current_active_chain: `E2 -> E3 -> E4 -> S2 -> E4A -> S2A -> E5 -> S3 -> E6 -> S4 -> E7 -> S5`
 - current_mainline_scientific_target: `S2A`
 - current_active_engineering_gate: `E4A`
-- deployment_mode: `design_intake_only`
+- deployment_mode: `formal_validation`
 - implementation_status: `smoke_passed`
 - training_status: `not_started`
 - benchmark_status: `not_started`
 - preserved_s2_evidence: `docs/mainline/reports/s2_round8_formal_latest.md`, `docs/mainline/reports/s2_b0_b1_b2_metrics_latest.md`, `docs/mainline/reports/s2_closure_assessment_latest.md`
-- current_round: `bounded E4A implementation + smoke completed; no S2A formal execution`
+- current_round: `S2A formal mechanism validation; GPU1/2 only; no Pred-Obj`
 
 ## Round8 formal update (latest)
 - round_id: `RUN-S2-ROUND8-FORMAL-R1`
@@ -59,7 +59,7 @@ This file tracks the authoritative state for document-driven automation.
   - unseen_miou: `0.0`
   - harmonic_miou: `0.0`
 - s2_judgment_state: `PASS`
-- next_step: `hand off preserved; E4A smoke evidence is settled and S2A formal remains out of scope for this round`
+- next_step: `execute bounded S2A formal matrix with E4A support, then summarize mechanism evidence`
 
 ## E2 repro R2 round update
 - round_status: `HARD_BLOCKER`
