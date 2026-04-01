@@ -61,6 +61,20 @@ def _write_text(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text if text.endswith("\n") else text + "\n", encoding="utf-8")
 
+
+def _to_jsonable(value: Any) -> Any:
+    if torch.is_tensor(value):
+        if value.ndim == 0:
+            return value.item()
+        return value.detach().cpu().tolist()
+    if isinstance(value, Path):
+        return str(value)
+    if isinstance(value, dict):
+        return {str(key): _to_jsonable(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_to_jsonable(item) for item in value]
+    return value
+
 def _pick_sample(
     *,
     split: str,
@@ -439,7 +453,8 @@ def main() -> int:
 
     reports_dir = repo_root / "docs/mainline/reports"
     reports_dir.mkdir(parents=True, exist_ok=True)
-    _write_text(reports_dir / "e4a_smoke_artifact_latest.json", json.dumps(summary, indent=2))
+    jsonable_summary = _to_jsonable(summary)
+    _write_text(reports_dir / "e4a_smoke_artifact_latest.json", json.dumps(jsonable_summary, indent=2))
     _write_reports(
         repo_root=repo_root,
         smoke_result=smoke_result,
@@ -454,7 +469,7 @@ def main() -> int:
             cwd=str(repo_root),
         ).stdout.strip(),
     )
-    print(json.dumps(summary, indent=2))
+    print(json.dumps(jsonable_summary, indent=2))
     return 0
 
 
