@@ -109,7 +109,11 @@ def compute_l_inst(
             continue
         if torch.is_tensor(pred) or torch.is_tensor(target):
             pred_t = pred if torch.is_tensor(pred) else torch.as_tensor(pred)
-            target_t = target if torch.is_tensor(target) else torch.as_tensor(target, dtype=pred_t.dtype, device=pred_t.device)
+            target_t = (
+                target.to(device=pred_t.device, dtype=pred_t.dtype)
+                if torch.is_tensor(target)
+                else torch.as_tensor(target, dtype=pred_t.dtype, device=pred_t.device)
+            )
             penalties.append(float((1.0 - _tensor_cosine(pred_t, target_t)).mean().item()))
         else:
             penalties.append(1.0 - _cosine(pred, target))
@@ -133,7 +137,11 @@ def compute_l_overlap(
         rhs_scores = assignments[rhs]
         if torch.is_tensor(lhs_scores) or torch.is_tensor(rhs_scores):
             lhs_t = lhs_scores if torch.is_tensor(lhs_scores) else torch.as_tensor(lhs_scores)
-            rhs_t = rhs_scores if torch.is_tensor(rhs_scores) else torch.as_tensor(rhs_scores, dtype=lhs_t.dtype, device=lhs_t.device)
+            rhs_t = (
+                rhs_scores.to(device=lhs_t.device, dtype=lhs_t.dtype)
+                if torch.is_tensor(rhs_scores)
+                else torch.as_tensor(rhs_scores, dtype=lhs_t.dtype, device=lhs_t.device)
+            )
             if lhs_t.shape[0] != rhs_t.shape[0]:
                 raise ValueError("L_overlap assignment length mismatch")
             num = (lhs_t * rhs_t).sum()
