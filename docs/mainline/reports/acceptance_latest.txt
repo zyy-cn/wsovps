@@ -1,2 +1,14 @@
-INCONCLUSIVE
-S2 remains INCONCLUSIVE. This round completed official-input alignment repair with `FULLY ALIGNED WITH PACK` status, but no new smoke/formal run was launched by round rule.
+PASS
+B0 acceleration repair, comparative closure, and final S2 judgment are now settled.
+
+Acceptance framing:
+- safe stop of the prior slow B0 run: PASS
+- hot-path removal landed within bounded files: PASS
+- frozen control-case support-mask equivalence: PASS
+- frozen control-case evaluator equivalence: PASS
+- GPU-required gate for the rerun: PASS
+- canonical formal B0 metrics artifact: PASS
+- canonical B0/B1/B2 comparative packet: PASS
+- B2 non-degenerate and meaningfully better than B0/B1: PASS
+
+Final S2 judgment: PASS

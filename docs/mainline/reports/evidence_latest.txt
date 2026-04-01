@@ -1,18 +1,42 @@
-S2_OVPART_OFFICIAL_INPUT_ALIGNMENT_ALIGNED
+S2_B0_FORMAL_ACCELERATION_AND_COMPARATIVE_CLOSURE_EVIDENCE
 execution_repo_root: `/mnt/sda/zyy/code/wsovps`
-round_mode: `local_pack_materialization_then_remote_repair_validation_only`
+local_repo_root: `/mnt/e/Code/wsovps`
+round_mode: `b0_formal_acceleration + comparative_closure`
 
-Current round evidence:
-1. Local pack materialized to remote path:
-   - `/mnt/sda/zyy/code/wsovps/docs/mainline/designs/GATE_S2/DP-S2-OVPART-OFFICIAL-INPUT-ALIGNMENT-R1/`
-2. Required pack files presence check: `PASS`
-3. Bounded repair iteration count: `1`
-4. Validation protocol result: `PASS`
-5. Anti-drift checklist result: `PASS` (8/8)
-6. No new smoke run launched: `true`
-7. No new formal rerun launched: `true`
-8. Canonical report:
-   - `docs/mainline/reports/s2_ovpart_official_input_alignment_latest.md`
+Discovered evidence:
+1. Slow-run stop snapshot: `docs/mainline/reports/s2_b0_stop_safety_snapshot_latest.md`
+   - captured the original slow B0 wrapper/worker chain and GPU state before termination
+2. Slow-run abort report: `docs/mainline/reports/s2_b0_slow_run_aborted_latest.md`
+   - prior slow run was quarantined and stopped safely
+3. Root-cause packet: `docs/mainline/reports/s2_b0_speed_rootcause_latest.md`
+   - enumerates the runner, evaluator, runtime, and decode hot paths that were removed
+4. Equivalence packet: `docs/mainline/reports/s2_b0_speed_equivalence_latest.md`
+   - support-mask equivalence: `True`
+   - evaluator IoU key equivalence: `True`
+   - max absolute IoU diff: `0.0`
+   - control-case max_iou: `0.6125963093965068`
+5. GPU evidence packet: `docs/mainline/reports/s2_b0_gpu_evidence_latest.md`
+   - `cuda_is_available: True`
+   - patched path reached non-zero CUDA memory allocation
+6. Speed summary packet: `docs/mainline/reports/s2_b0_speedup_evidence_latest.md`
+   - total runtime estimate: `5053` seconds
+   - average seconds per sample estimate: `4.59`
+7. Canonical B0 formal packet: `docs/mainline/reports/s2_round8_formal_b0_latest.md`
+   - run_id: `RUN-S2-ROUND8-FORMAL-B0-R1`
+   - seen raw: `0.05091281437279056`
+   - unseen raw: `0.0038757990073419275`
+   - harmonic raw: `0.0`
+   - metric_source: `pp116_oracle_obj_runtime_evaluator_output`
+8. Canonical B0/B1/B2 comparative packet: `docs/mainline/reports/s2_b0_b1_b2_metrics_latest.md`
+   - B0/B1/B2 official PP116 metrics present
+   - monotonic ordering: `B2 > B1 > B0` on seen / unseen / harmonic
+9. Comparative diagnostics packet: `docs/mainline/reports/s2_comparative_diagnostics_latest.md`
+   - control-case sentinel pass
+   - B2 semantic alignment validation pass
+   - B0 repair equivalence pass
 
-Next required evidence:
-- Proceed to the next authorized S2 execution round using the aligned official sample/input semantics baseline.
+Conclusion:
+- The bounded B0 acceleration repair is landed and semantically validated.
+- The accelerated B0 formal rerun completed on REMOTE and emitted canonical formal metrics.
+- The broader B0/B1/B2 comparative packet is now complete.
+- Final S2 judgment is PASS.

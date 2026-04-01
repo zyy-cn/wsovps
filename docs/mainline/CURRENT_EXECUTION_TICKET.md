@@ -3,13 +3,13 @@
 This file is the canonical current-round scope for Codex.
 
 ## Objective
-Execute one clean official S2 benchmark-loop rerun under repaired residual-core + formal-input closure semantics, emit Seen/Unseen/Harmonic mIoU from official evaluator-output path, and update canonical latest/takeover surfaces.
+Deploy and normalize the E4A/S2A design-intake overlay so the mainline control plane reflects the post-S2 scientific target S2A with E4A as the minimum supporting engineering gate, then update the authoritative latest/takeover surfaces.
 
 ## Active gate binding
-- active_gate: `S2`
-- active_scientific_gate: `S2`
-- evidence_tier: `formal`
-- formal_standard_version: `wsovps-s2-v1`
+- active_gate: `E4A`
+- active_scientific_gate: `S2A`
+- evidence_tier: `design`
+- formal_standard_version: `wsovps-e4a-s2a-design-intake-v1`
 
 ## Role / execution binding
 - role_boundary_ack: `required`
@@ -22,47 +22,53 @@ Execute one clean official S2 benchmark-loop rerun under repaired residual-core 
 - git_boundary: `false`
 - delivery_mode: `design_pack`
 - design_pack_required: `true`
-- design_pack_id: `DP-S2-PP116-DATA-EVAL-FIDELITY-R1`
+- design_pack_id: `DP-E4A-ORACLEOBJ-LOSS-ATTRIBUTION-INSTRUMENTATION-R1`
 - design_pack_status: `approved`
 - allowed_design_deviation: `false`
 - milestone_id: `not-yet-declared`
-- code_change_expected: `true`
+- code_change_expected: `false`
 - runtime_override_only: `false`
 - working_tree_clean: `false`
 - local_snapshot_id: `not-yet-declared`
 - remote_snapshot_id: `not-yet-declared`
 - remote_tree_verified: `true`
 - config_snapshot_path: `not-yet-declared`
+- governance_ingestion_note: `git state audited; see docs/mainline/reports/git_state_audit_latest.md for the bounded E4A/S2A overlay/control-plane boundary`
+- archive_sync_note: `remote alignment will be captured in docs/mainline/reports/sync_alignment_latest.md after the bounded commit is applied`
 
 ## Experiment binding
-- experiment_id: `EXP-S2-PP116-ORACLEOBJ-RESIDUAL-ONLY-FEASIBILITY`
-- run_id: `RUN-S2-ROUND6-FORMAL-R1`
-- question_type: `scientific_feasibility`
-- level: `formal`
+- experiment_id: `EXP-E4A-ORACLEOBJ-LOSS-ATTRIBUTION-INSTRUMENTATION`
+- run_id: `not-yet-declared`
+- question_type: `design_intake`
+- level: `design`
 - eligible_for_gate_judgment: `false`
-- expected_next_status: `judgment_pending_after_round6`
+- expected_next_status: `design_intake_ready`
+
+## Bound design packs
+- `DP-E4A-ORACLEOBJ-LOSS-ATTRIBUTION-INSTRUMENTATION-R1`
+- `DP-S2A-ORACLEOBJ-LOSS-MECHANISM-VALIDATION-R1`
 
 ## Round constraints
-- Preserve `RUN-S2-ROUND4-FORMAL-R1` as prior bridge/intermediate evidence.
+- Preserve S2 PASS evidence and provenance.
 - Use remote authoritative runtime only (`/mnt/sda/zyy/code/wsovps`) for execution truth.
-- No training/optimizer/parameter-update actions.
-- Do not promote any gate.
+- No implementation, training, or benchmark execution.
+- Do not promote any gate outside canonical design-intake normalization.
 - Keep PP116 asset discovery compatibility (`data/pascal_part116`) intact.
 
 ## Allowed execution scope
-- Run fast preflight checks for formal-input closure, residual-core semantics, and grouped-evaluator metric source.
-- Launch one clean official rerun (`RUN-S2-ROUND6-FORMAL-R1`) with no training.
-- Refresh canonical latest/takeover surfaces and sync remote truth back to local.
+- Normalize the current control-plane truth to reflect the E4A/S2A design-intake overlay.
+- Preserve the settled S2 PASS evidence and provenance.
+- Refresh canonical latest/takeover surfaces and sync the normalized truth back to local.
 
 ## Required deliverables
-- run artifact for `RUN-S2-ROUND6-FORMAL-R1` with official Seen/Unseen/Harmonic output
-- refreshed `STATUS.md`, `phase_gate_latest.txt`, `acceptance_latest.txt`, `evidence_latest.txt`
+- refreshed `STATUS.md`, `CURRENT_LOOP_BRIEF.md`, `CURRENT_GATE_PACK.md`, `WEB_SESSION_BRIEF.md`, `loop_state_latest.json`, `CONTROL_PLANE_STATE.json`
 - refreshed `TAKEOVER_LATEST.md` and `TAKEOVER_LATEST.json`
+- deployment report for the E4A/S2A overlay
 
 ## Not allowed this round
-- any training / optimizer / parameter update
+- any implementation / training / benchmark execution
 - any gate promotion
-- scope widening outside governed S2 benchmark-loop rerun boundary
+- scope widening outside the design-intake normalization boundary
 
 ## Resume note
-After round-6 evidence is recorded, apply acceptance-threshold framing and record final S2 PASS/FAIL judgment.
+S2 PASS evidence is preserved; the remaining action is E4A/S2A design-intake normalization and handoff.

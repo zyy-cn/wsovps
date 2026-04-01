@@ -1,16 +1,16 @@
 # Web Session Brief (Derived View)
 
-- generated_at: `2026-03-30T21:19:53`
-- source_digest: `1e7265796ac4be6e4e763cf640b2bfccf5689ad7506c424bf22add7ea5b6c1ca`
-- state_version: `35707eaa4a3a`
+- generated_at: `2026-04-01T10:29:06`
+- source_digest: `a5862ee8acefb5420a60fb881c113367e19f8419f5228e4abd82bbc3c7c6a5f6`
+- state_version: `f96faefe53ce`
 
 ## Current control-plane snapshot
-- active_gate: `E2`
-- active_scientific_gate: `S2`
-- evidence_tier: `formal`
-- scientific_status: `active-s2-phase-b-delta-bound`
-- engineering_status: `settled`
-- overall_status: `s2_blocked_on_formal_metrics_path`
+- active_gate: `E4A`
+- active_scientific_gate: `S2A`
+- evidence_tier: `design`
+- scientific_status: `active-s2a-design-intake`
+- engineering_status: `prepared`
+- overall_status: `s2_passed_next_target_ready`
 - active_experiments: `4`
 
 ## Primary handoff artifact

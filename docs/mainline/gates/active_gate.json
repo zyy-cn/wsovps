@@ -1,0 +1,12 @@
+{
+  "active_gate": "E4A",
+  "active_scientific_gate": "S2A",
+  "active_engineering_gates": [
+    "E4A"
+  ],
+  "evidence_tier": "design",
+  "formal_standard_version": "wsovps-e4a-s2a-design-intake-v1",
+  "active_gate_version": "wsovps-e4a-v1",
+  "reentry_condition": "review the E4A/S2A design-intake overlay and keep canonical truth synchronized",
+  "notes": "E4A is the supporting engineering gate for the next scientific target S2A; S2 PASS evidence remains preserved."
+}

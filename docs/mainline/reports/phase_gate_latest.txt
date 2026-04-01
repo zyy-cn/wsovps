@@ -1,4 +1,24 @@
-INCONCLUSIVE
+S2_COMPARATIVE_CLOSURE
 Gate: S2
-Scientific target: S2
-Status: Official-input alignment repair/validation is `FULLY ALIGNED WITH PACK` after one bounded iteration (no new run launched in this round). S2 execution judgment remains pending next authorized run.
+Status: PASS
+
+Evidence discovered:
+- B0 stop snapshot: docs/mainline/reports/s2_b0_stop_safety_snapshot_latest.md
+- B0 slow-run abort report: docs/mainline/reports/s2_b0_slow_run_aborted_latest.md
+- B0 speed root-cause report: docs/mainline/reports/s2_b0_speed_rootcause_latest.md
+- B0 equivalence report: docs/mainline/reports/s2_b0_speed_equivalence_latest.md
+- B0 GPU evidence: docs/mainline/reports/s2_b0_gpu_evidence_latest.md
+- B0 speed summary: docs/mainline/reports/s2_b0_speedup_evidence_latest.md
+- canonical B0 formal report: docs/mainline/reports/s2_round8_formal_b0_latest.md
+- B0/B1/B2 comparative metrics: docs/mainline/reports/s2_b0_b1_b2_metrics_latest.md
+- comparative summary: docs/mainline/reports/s2_comparative_summary_latest.md
+- comparative diagnostics: docs/mainline/reports/s2_comparative_diagnostics_latest.md
+- closure assessment: docs/mainline/reports/s2_closure_assessment_latest.md
+
+Current judgment context:
+- B0 acceleration patch is landed and equivalence-validated
+- RUN-S2-ROUND8-FORMAL-B0-R1 completed with canonical formal metrics
+- canonical B0/B1/B2 comparative packet is now complete
+- final S2 judgment is PASS
+
+Next step category: proceed to E5 / archive S2
