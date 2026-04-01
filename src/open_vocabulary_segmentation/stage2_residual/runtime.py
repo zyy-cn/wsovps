@@ -395,7 +395,7 @@ def _build_residual_route_materials(
         mode,
         alpha_value=float(cfg.get("stage2_residual", {}).get("alpha_value", 1.0)),
     )
-    residual_texts = text_spec.residual_texts or []
+    residual_texts = text_spec.residual_texts if text_spec.residual_texts is not None else []
     mapped_residuals = map_text_residual_to_visual(
         object_text=text_spec.object_text,
         residual_texts=residual_texts,
