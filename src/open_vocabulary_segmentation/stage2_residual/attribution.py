@@ -329,6 +329,7 @@ def run_attribution_condition(
         "update_applied": any(delta > 0.0 for delta in param_deltas.values()),
         "grouped_metrics": state.grouped_metrics,
         "grouped_metric_keys": sorted(state.grouped_metrics.keys()),
+        "grouped_metric_schema_keys": sorted(state.grouped_metrics.keys()),
         "grouped_metric_source": state.grouped_metrics.get("metric_source", "not-yet-declared"),
         "compatibility": {
             "evaluator_source": state.debug.get("formal_bundle_provenance", {}).get("evaluator_source", "not-yet-declared"),
