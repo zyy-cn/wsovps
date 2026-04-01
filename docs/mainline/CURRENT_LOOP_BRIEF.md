@@ -1,8 +1,8 @@
 # Current Loop Brief (Derived View)
 
-- generated_at: `2026-04-01T10:29:06`
-- source_digest: `a5862ee8acefb5420a60fb881c113367e19f8419f5228e4abd82bbc3c7c6a5f6`
-- state_version: `f96faefe53ce`
+- generated_at: `2026-04-01T11:36:31`
+- source_digest: `6dbbd395fe378a6a519cd5f02c85e82956a6c4709a8d5b92df006bb9a1d8e657`
+- state_version: `e8e7235c9f6a`
 
 ## Current gate & tier
 - active_gate: `E4A`
@@ -16,7 +16,7 @@
 Review the E4A/S2A design-intake overlay and keep the local canonical truth synchronized.
 
 ## Current execution scope objective
-Deploy and normalize the E4A/S2A design-intake overlay so the mainline control plane reflects the post-S2 scientific target S2A with E4A as the minimum supporting engineering gate, then update the authoritative latest/takeover surfaces.
+Implement the minimum E4A Oracle-Obj loss-attribution surface from the approved implementation pack, run the bounded E4A smoke only, preserve the settled S2 PASS evidence, and refresh the authoritative latest/takeover surfaces.
 
 ## Active experiments
 - count: `4`

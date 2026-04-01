@@ -28,7 +28,7 @@ from open_vocabulary_segmentation.stage2_protocol.pp116_oracle_obj_evaluator imp
 )
 
 from .competition import apply_sibling_competition, build_topk_support_targets
-from .losses import build_default_loss_spec, compute_stage2_losses
+from .losses import ResidualLossSpec, build_default_loss_spec, compute_stage2_losses
 from .modes import ResidualMode, parse_residual_mode
 from .part_prototypes import build_part_prototype
 from .retrieval import (
@@ -58,6 +58,26 @@ class ResidualRouteResult:
     retrieval_spec: dict[str, Any]
     losses: dict[str, float]
     grouped_metrics: dict[str, Any]
+    debug: dict[str, Any]
+
+    def as_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True, slots=True)
+class ResidualAttributionState:
+    mode: str
+    config_path: str
+    protocol_bindings: dict[str, Any]
+    sibling_keys: list[str]
+    prototype_bank: dict[str, Any]
+    assignments: dict[str, Any]
+    support_features: Any
+    patch_features: Any
+    support_mask: Any
+    z_targets: dict[str, Any]
+    grouped_metrics: dict[str, Any]
+    losses: dict[str, float]
     debug: dict[str, Any]
 
     def as_dict(self) -> dict[str, Any]:
@@ -321,7 +341,7 @@ def _emit_grouped_metrics(
     return grouped_miou
 
 
-def run_pp116_residual_route(
+def _build_residual_route_materials(
     *,
     mode_name: str | None = None,
     config_path: str | Path | None = None,
@@ -330,7 +350,8 @@ def run_pp116_residual_route(
     formal_bundle: FormalInputsBundle | Mapping[str, Any] | None = None,
     formal_inputs: Mapping[str, Any] | None = None,
     formal_evaluator_output: Mapping[str, Any] | None = None,
-) -> ResidualRouteResult:
+    loss_spec: ResidualLossSpec | None = None,
+) -> dict[str, Any]:
     cfg_path = resolve_pp116_stage2_residual_config_path(config_path)
     cfg = _load_structured_config(cfg_path)
     protocol_name = str(cfg.get("stage2_protocol", {}).get("name", "pp116_oracle_obj"))
@@ -425,12 +446,12 @@ def run_pp116_residual_route(
         support_features=support_features,
         topk_spec=topk_spec,
     )
-    v_part = {key: prototype_bank[key] for key in sibling_keys}
+    effective_loss_spec = loss_spec or build_default_loss_spec()
     losses = compute_stage2_losses(
         assignments,
-        v_part=v_part,
+        v_part={key: prototype_bank[key] for key in sibling_keys},
         z_targets=z_targets,
-        loss_spec=build_default_loss_spec(),
+        loss_spec=effective_loss_spec,
     )
     if (
         is_formal_mode
@@ -450,47 +471,128 @@ def run_pp116_residual_route(
         formal_evaluator_output=evaluator_output,
     )
 
+    debug = {
+        "formal_mode": is_formal_mode,
+        "formal_core_uses_default_inputs": used_default_inputs,
+        "formal_bundle_required": is_formal_mode,
+        "formal_bundle_present": resolved_formal_bundle is not None,
+        "formal_bundle_identity": (
+            {
+                "file_name": resolved_formal_bundle.file_name,
+                "sem_seg_file_name": resolved_formal_bundle.sem_seg_file_name,
+                "obj_sem_seg_file_name": resolved_formal_bundle.obj_sem_seg_file_name,
+                "category_id": resolved_formal_bundle.category_id,
+            }
+            if resolved_formal_bundle is not None
+            else None
+        ),
+        "formal_bundle_provenance": (
+            {
+                "feature_source": resolved_formal_bundle.feature_source,
+                "support_source": resolved_formal_bundle.support_source,
+                "evaluator_source": resolved_formal_bundle.evaluator_source,
+                "evaluator_output_mode": resolved_formal_bundle.evaluator_output_mode,
+                "trace_key": resolved_formal_bundle.trace_key,
+            }
+            if resolved_formal_bundle is not None
+            else None
+        ),
+        "v_o_source": "support_pooling",
+        "delta_source": "Phi_o",
+        "z_present": bool(z_targets),
+        "tau_p": tau_p,
+        "topk_k": topk_spec,
+        "visual_mapping_enabled": visual_spec.phi_mapping_enabled,
+        "sibling_part_count": len(sibling_keys),
+        "prototype_keys": list(prototype_bank.keys()),
+        "assignment_keys": list(assignments.keys()),
+        "loss_spec": effective_loss_spec.as_dict(),
+    }
+
+    return {
+        "mode": mode,
+        "cfg_path": cfg_path,
+        "protocol_bindings": protocol_bindings,
+        "retrieval_spec": retrieval_spec.as_dict(),
+        "losses": losses,
+        "grouped_metrics": grouped_metrics,
+        "debug": debug,
+        "prototype_bank": prototype_bank,
+        "sibling_keys": sibling_keys,
+        "assignments": assignments,
+        "support_features": support_features,
+        "patch_features": inputs["patch_features"],
+        "support_mask": inputs["support_mask"],
+        "z_targets": z_targets,
+    }
+
+
+def build_pp116_residual_attribution_state(
+    *,
+    mode_name: str | None = None,
+    config_path: str | Path | None = None,
+    synthetic_inputs: dict[str, Any] | None = None,
+    formal_mode: bool | None = None,
+    formal_bundle: FormalInputsBundle | Mapping[str, Any] | None = None,
+    formal_inputs: Mapping[str, Any] | None = None,
+    formal_evaluator_output: Mapping[str, Any] | None = None,
+    loss_spec: ResidualLossSpec | None = None,
+) -> ResidualAttributionState:
+    material = _build_residual_route_materials(
+        mode_name=mode_name,
+        config_path=config_path,
+        synthetic_inputs=synthetic_inputs,
+        formal_mode=formal_mode,
+        formal_bundle=formal_bundle,
+        formal_inputs=formal_inputs,
+        formal_evaluator_output=formal_evaluator_output,
+        loss_spec=loss_spec,
+    )
+    mode_value = material["mode"].value if hasattr(material["mode"], "value") else str(material["mode"])
+    return ResidualAttributionState(
+        mode=mode_value,
+        config_path=str(material["cfg_path"]),
+        protocol_bindings=material["protocol_bindings"],
+        sibling_keys=list(material["sibling_keys"]),
+        prototype_bank=material["prototype_bank"],
+        assignments=material["assignments"],
+        support_features=material["support_features"],
+        patch_features=material["patch_features"],
+        support_mask=material["support_mask"],
+        z_targets=material["z_targets"],
+        grouped_metrics=material["grouped_metrics"],
+        losses=material["losses"],
+        debug=material["debug"],
+    )
+
+
+def run_pp116_residual_route(
+    *,
+    mode_name: str | None = None,
+    config_path: str | Path | None = None,
+    synthetic_inputs: dict[str, Any] | None = None,
+    formal_mode: bool | None = None,
+    formal_bundle: FormalInputsBundle | Mapping[str, Any] | None = None,
+    formal_inputs: Mapping[str, Any] | None = None,
+    formal_evaluator_output: Mapping[str, Any] | None = None,
+) -> ResidualRouteResult:
+    material = _build_residual_route_materials(
+        mode_name=mode_name,
+        config_path=config_path,
+        synthetic_inputs=synthetic_inputs,
+        formal_mode=formal_mode,
+        formal_bundle=formal_bundle,
+        formal_inputs=formal_inputs,
+        formal_evaluator_output=formal_evaluator_output,
+        loss_spec=build_default_loss_spec(),
+    )
+    mode = material["mode"]
     return ResidualRouteResult(
-        mode=mode.value,
-        config_path=str(cfg_path),
-        protocol_bindings=protocol_bindings,
-        retrieval_spec=retrieval_spec.as_dict(),
-        losses=losses,
-        grouped_metrics=grouped_metrics,
-        debug={
-            "formal_mode": is_formal_mode,
-            "formal_core_uses_default_inputs": used_default_inputs,
-            "formal_bundle_required": is_formal_mode,
-            "formal_bundle_present": resolved_formal_bundle is not None,
-            "formal_bundle_identity": (
-                {
-                    "file_name": resolved_formal_bundle.file_name,
-                    "sem_seg_file_name": resolved_formal_bundle.sem_seg_file_name,
-                    "obj_sem_seg_file_name": resolved_formal_bundle.obj_sem_seg_file_name,
-                    "category_id": resolved_formal_bundle.category_id,
-                }
-                if resolved_formal_bundle is not None
-                else None
-            ),
-            "formal_bundle_provenance": (
-                {
-                    "feature_source": resolved_formal_bundle.feature_source,
-                    "support_source": resolved_formal_bundle.support_source,
-                    "evaluator_source": resolved_formal_bundle.evaluator_source,
-                    "evaluator_output_mode": resolved_formal_bundle.evaluator_output_mode,
-                    "trace_key": resolved_formal_bundle.trace_key,
-                }
-                if resolved_formal_bundle is not None
-                else None
-            ),
-            "v_o_source": "support_pooling",
-            "delta_source": "Phi_o",
-            "z_present": bool(z_targets),
-            "tau_p": tau_p,
-            "topk_k": topk_spec,
-            "visual_mapping_enabled": visual_spec.phi_mapping_enabled,
-            "sibling_part_count": len(sibling_keys),
-            "prototype_keys": list(prototype_bank.keys()),
-            "assignment_keys": list(assignments.keys()),
-        },
+        mode=mode.value if hasattr(mode, "value") else str(mode),
+        config_path=str(material["cfg_path"]),
+        protocol_bindings=material["protocol_bindings"],
+        retrieval_spec=material["retrieval_spec"],
+        losses=material["losses"],
+        grouped_metrics=material["grouped_metrics"],
+        debug=material["debug"],
     )

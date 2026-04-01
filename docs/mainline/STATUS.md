@@ -3,7 +3,7 @@
 This file tracks the authoritative state for document-driven automation.
 
 ## Current state
-- Current code snapshot status: `clean official S2 comparative closure complete; E4A/S2A design-intake overlay deployed; S2 PASS evidence preserved`
+- Current code snapshot status: `E4A implementation round underway; S2 PASS evidence preserved; design-intake overlay remains deployed`
 - Gate mode: `science-first-dual-gate`
 - Active gate: `E4A`
 - Active scientific gate: `S2A`
@@ -39,10 +39,11 @@ This file tracks the authoritative state for document-driven automation.
 - current_mainline_scientific_target: `S2A`
 - current_active_engineering_gate: `E4A`
 - deployment_mode: `design_intake_only`
-- implementation_status: `not_started`
+- implementation_status: `in_progress`
 - training_status: `not_started`
 - benchmark_status: `not_started`
 - preserved_s2_evidence: `docs/mainline/reports/s2_round8_formal_latest.md`, `docs/mainline/reports/s2_b0_b1_b2_metrics_latest.md`, `docs/mainline/reports/s2_closure_assessment_latest.md`
+- current_round: `bounded E4A implementation + smoke only; no S2A formal execution`
 
 ## Round8 formal update (latest)
 - round_id: `RUN-S2-ROUND8-FORMAL-R1`

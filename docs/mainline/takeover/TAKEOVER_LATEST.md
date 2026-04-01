@@ -2,8 +2,8 @@
 
 This is the primary handoff artifact for web-side GPT review.
 
-- generated_at: `2026-04-01T10:29:06`
-- source_digest: `892821a9f36f7f796c9e97cab39ea3035be9f76293cf7a36eec08184874587b7`
+- generated_at: `2026-04-01T11:36:31`
+- source_digest: `fc339b3d7258b207d3587a52d2ad95bbc33dfdf23641599e03f6babec8cb2aac`
 - state_version: `f96faefe53ce`
 
 ## Current control-plane truth
@@ -15,29 +15,29 @@ This is the primary handoff artifact for web-side GPT review.
 - overall_status: `s2_passed_next_target_ready`
 
 ## Current execution ticket
-- objective: Deploy and normalize the E4A/S2A design-intake overlay so the mainline control plane reflects the post-S2 scientific target S2A with E4A as the minimum supporting engineering gate, then update the authoritative latest/takeover surfaces.
+- objective: Implement the minimum E4A Oracle-Obj loss-attribution surface from the approved implementation pack, run the bounded E4A smoke only, preserve the settled S2 PASS evidence, and refresh the authoritative latest/takeover surfaces.
 - delivery_mode: `design_pack`
-- design_pack_id: `DP-E4A-ORACLEOBJ-LOSS-ATTRIBUTION-INSTRUMENTATION-R1`
+- design_pack_id: `DP-E4A-ORACLEOBJ-LOSS-ATTRIBUTION-IMPLEMENTATION-R2`
 - design_pack_status: `approved`
-- milestone_id: `not-yet-declared`
+- milestone_id: `e4a-implementation-r2`
 - experiment_id: `EXP-E4A-ORACLEOBJ-LOSS-ATTRIBUTION-INSTRUMENTATION`
 - run_id: `not-yet-declared`
-- question_type: `design_intake`
-- level: `design`
-- expected_next_status: `design_intake_ready`
+- question_type: `implementation_smoke`
+- level: `implementation`
+- expected_next_status: `bounded_smoke_ready`
 - long_running: `False`
 - watcher_required: `False`
 - listener_required: `False`
 - git_boundary: `False`
 - commit_sha: `not-yet-declared`
 - tree_sha: `not-yet-declared`
-- working_tree_clean: `false`
+- working_tree_clean: `true`
 - config_snapshot_path: `not-yet-declared`
-- governance_ingestion_note: `not-yet-declared`
-- archive_sync_note: `not-yet-declared`
+- governance_ingestion_note: `pre-flight code-truth check passed; implementation pack assumptions still match the current residual runtime`
+- archive_sync_note: `remote alignment verified; bounded commit and smoke will be mirrored after code landing`
 - allowed_tools: `[]`
 - formal_pass: not-yet-declared
-- allowed_scope: - Normalize the current control-plane truth to reflect the E4A/S2A design-intake overlay. - Preserve the settled S2 PASS evidence and provenance. - Refresh canonical latest/takeover surfaces and sync the normalized truth back to local.
+- allowed_scope: - Implement the minimum E4A loss-attribution surface in the approved residual-layer files. - Run the bounded E4A smoke only. - Preserve the settled S2 PASS evidence and provenance. - Refresh canonical latest/takeover surfaces and sync the implementation result back to local.
 
 ## Experiment Ledger
 - active_count: `4`

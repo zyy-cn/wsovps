@@ -1,8 +1,8 @@
 # Web Session Brief (Derived View)
 
-- generated_at: `2026-04-01T10:29:06`
-- source_digest: `a5862ee8acefb5420a60fb881c113367e19f8419f5228e4abd82bbc3c7c6a5f6`
-- state_version: `f96faefe53ce`
+- generated_at: `2026-04-01T11:36:31`
+- source_digest: `6dbbd395fe378a6a519cd5f02c85e82956a6c4709a8d5b92df006bb9a1d8e657`
+- state_version: `e8e7235c9f6a`
 
 ## Current control-plane snapshot
 - active_gate: `E4A`

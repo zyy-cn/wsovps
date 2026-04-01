@@ -16,6 +16,53 @@ class ResidualLossSpec:
         return asdict(self)
 
 
+def build_loss_spec_from_condition(condition: str) -> ResidualLossSpec:
+    normalized = condition.strip().lower()
+    excluded_losses = ("l_tv", "l_view", "l_ctr", "l_rec")
+    mapping: dict[str, ResidualLossSpec] = {
+        "full": ResidualLossSpec(
+            use_l_inst=True,
+            use_l_overlap=True,
+            excluded_losses=excluded_losses,
+            notes="E4A full active-loss condition (L_inst + L_overlap).",
+        ),
+        "minus_l_inst": ResidualLossSpec(
+            use_l_inst=False,
+            use_l_overlap=True,
+            excluded_losses=excluded_losses,
+            notes="E4A condition with L_inst disabled.",
+        ),
+        "minus_l_overlap": ResidualLossSpec(
+            use_l_inst=True,
+            use_l_overlap=False,
+            excluded_losses=excluded_losses,
+            notes="E4A condition with L_overlap disabled.",
+        ),
+        "only_l_inst": ResidualLossSpec(
+            use_l_inst=True,
+            use_l_overlap=False,
+            excluded_losses=excluded_losses,
+            notes="E4A condition with only L_inst active.",
+        ),
+        "only_l_overlap": ResidualLossSpec(
+            use_l_inst=False,
+            use_l_overlap=True,
+            excluded_losses=excluded_losses,
+            notes="E4A condition with only L_overlap active.",
+        ),
+        "zero_loss": ResidualLossSpec(
+            use_l_inst=False,
+            use_l_overlap=False,
+            excluded_losses=excluded_losses,
+            notes="E4A zero-loss control with no optimizer update.",
+        ),
+    }
+    if normalized not in mapping:
+        allowed = ", ".join(sorted(mapping))
+        raise ValueError(f"unsupported E4A loss condition: {condition!r}; allowed: {allowed}")
+    return mapping[normalized]
+
+
 def build_default_loss_spec() -> ResidualLossSpec:
     return ResidualLossSpec(
         use_l_inst=True,
