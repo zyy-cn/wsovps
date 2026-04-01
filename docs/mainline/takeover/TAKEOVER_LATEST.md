@@ -2,15 +2,15 @@
 
 This is the primary handoff artifact for web-side GPT review.
 
-- generated_at: `2026-04-01T12:18:56`
-- source_digest: `772962270641364dfcc06cc4ab696bac25f7fba2d5572abe12ff821db5069128`
-- state_version: `e1937a213423`
+- generated_at: `2026-04-01T12:25:48`
+- source_digest: `6f34ae93a4ca3df1d9de3629f2ffa8bf6dc5f468867929e2c51c65f60ad2ac4f`
+- state_version: `faba12373022`
 
 ## Current control-plane truth
-- active_gate: `E4A`
+- active_gate: `S2A`
 - active_scientific_gate: `S2A`
 - supporting_engineering_gates: `['E4A']`
-- scientific_status: `active-s2a-design-intake`
+- scientific_status: `active-s2a-formal-validation`
 - engineering_status: `prepared`
 - overall_status: `s2_passed_next_target_ready`
 
@@ -29,8 +29,8 @@ This is the primary handoff artifact for web-side GPT review.
 - watcher_required: `False`
 - listener_required: `False`
 - git_boundary: `False`
-- commit_sha: `not-yet-declared`
-- tree_sha: `not-yet-declared`
+- commit_sha: `8a51197966b7ebc48a7ca50065cc48c5246f9eef`
+- tree_sha: `db9975a068fe012f6669f17b10a72400e548f0de`
 - working_tree_clean: `true`
 - config_snapshot_path: `not-yet-declared`
 - governance_ingestion_note: `S2A formal bound to landed E4A attribution surface; E4A smoke evidence is settled and preserved; no Pred-Obj or evaluator drift`

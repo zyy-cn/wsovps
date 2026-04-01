@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-01T12:18:56",
-  "source_digest": "772962270641364dfcc06cc4ab696bac25f7fba2d5572abe12ff821db5069128",
-  "state_version": "e1937a213423",
-  "active_gate": "E4A",
+  "generated_at": "2026-04-01T12:25:48",
+  "source_digest": "6f34ae93a4ca3df1d9de3629f2ffa8bf6dc5f468867929e2c51c65f60ad2ac4f",
+  "state_version": "faba12373022",
+  "active_gate": "S2A",
   "active_scientific_gate": "S2A",
   "supporting_engineering_gates": [
     "E4A"
@@ -11,7 +11,7 @@
     "objective": "Run S2A Oracle-Obj loss mechanism formal validation (R2) using the landed E4A attribution surface; GPU1/2 only; no Pred-Obj; preserve S2 PASS; refresh takeover.",
     "formal_pass": "not-yet-declared",
     "allowed_scope": "- Run the bounded S2A formal matrix on the landed E4A attribution surface. - Preserve the settled S2 PASS evidence and the E4A smoke evidence. - Refresh canonical latest/takeover surfaces and sync the formal result back to local.",
-    "resume_note": "S2 PASS evidence is preserved; E4A smoke evidence is settled; the remaining action is bounded S2A formal mechanism validation and handoff refresh.",
+    "resume_note": "not-yet-declared",
     "governance_ingestion_note": "S2A formal bound to landed E4A attribution surface; E4A smoke evidence is settled and preserved; no Pred-Obj or evaluator drift",
     "archive_sync_note": "E4A smoke closeout preserved; S2A formal matrix pending on GPU1/2 only",
     "long_running": false,
@@ -28,8 +28,8 @@
     "design_pack_id": "DP-S2A-ORACLEOBJ-LOSS-MECHANISM-FORMAL-R2",
     "design_pack_status": "approved",
     "milestone_id": "s2a-formal-r2",
-    "commit_sha": "not-yet-declared",
-    "tree_sha": "not-yet-declared",
+    "commit_sha": "8a51197966b7ebc48a7ca50065cc48c5246f9eef",
+    "tree_sha": "db9975a068fe012f6669f17b10a72400e548f0de",
     "working_tree_clean": "true",
     "config_snapshot_path": "not-yet-declared"
   },
@@ -88,7 +88,7 @@
     "phase_gate": "S2_COMPARATIVE_CLOSURE Gate: S2 Status: PASS Evidence discovered: - B0 stop snapshot: docs/mainline/reports/s2_b0_stop_safety_snapshot_latest.md - B0 slow-run abort report: docs/mainline/reports/s2_b0_slow_run_aborted_latest.md - B0 speed root-cause report: docs/mainline/reports/s2_b0_speed_rootcause_latest.md - B0 equivalence report: docs/mainline/reports/s2_b0_speed_equivalence_latest.md - B0 GPU evidence: docs/mainline/reports/s2_b0_gpu_evidence_latest.md - B0 speed summary: docs/mainline/rep",
     "acceptance": "PASS B0 acceleration repair, comparative closure, and final S2 judgment are now settled. Acceptance framing: - safe stop of the prior slow B0 run: PASS - hot-path removal landed within bounded files: PASS - frozen control-case support-mask equivalence: PASS - frozen control-case evaluator equivalence: PASS - GPU-required gate for the rerun: PASS - canonical formal B0 metrics artifact: PASS - canonical B0/B1/B2 comparative packet: PASS - B2 non-degenerate and meaningfully better than B0/B1: PASS ",
     "evidence": "S2_B0_FORMAL_ACCELERATION_AND_COMPARATIVE_CLOSURE_EVIDENCE execution_repo_root: `/mnt/sda/zyy/code/wsovps` local_repo_root: `/mnt/e/Code/wsovps` round_mode: `b0_formal_acceleration + comparative_closure` Discovered evidence: 1. Slow-run stop snapshot: `docs/mainline/reports/s2_b0_stop_safety_snapshot_latest.md` - captured the original slow B0 wrapper/worker chain and GPU state before termination 2. Slow-run abort report: `docs/mainline/reports/s2_b0_slow_run_aborted_latest.md` - prior slow run w",
-    "scientific_status": "active-s2a-design-intake",
+    "scientific_status": "active-s2a-formal-validation",
     "engineering_status": "prepared",
     "overall_status": "s2_passed_next_target_ready"
   },

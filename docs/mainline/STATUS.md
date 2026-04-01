@@ -13,9 +13,9 @@ This file tracks the authoritative state for document-driven automation.
 - Gate registry version: `wsovps-new-mainline-v1-private`
 - Active gate definition file (from registry): `docs/mainline/gates/scientific/S2A_ORACLEOBJ_LOSS_MECHANISM_VALIDATION.md`
 - Active gate version (from registry): `wsovps-s2a-v1`
-- Git commit SHA: `not-yet-declared`
-- Git tree SHA: `not-yet-declared`
-- Working tree clean: `false`
+- Git commit SHA: `8a51197966b7ebc48a7ca50065cc48c5246f9eef`
+- Git tree SHA: `db9975a068fe012f6669f17b10a72400e548f0de`
+- Working tree clean: `true`
 - Terminal mainline mode: `not-terminal`
 - Scientific status: `active-s2a-formal-validation`
 - Engineering support status: `prepared`
