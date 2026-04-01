@@ -3,7 +3,7 @@
 This file tracks the authoritative state for document-driven automation.
 
 ## Current state
-- Current code snapshot status: `E4A implementation round underway; S2 PASS evidence preserved; design-intake overlay remains deployed`
+- Current code snapshot status: `E4A implementation smoke passed; S2 PASS evidence preserved; design-intake overlay remains deployed`
 - Gate mode: `science-first-dual-gate`
 - Active gate: `E4A`
 - Active scientific gate: `S2A`
@@ -39,11 +39,11 @@ This file tracks the authoritative state for document-driven automation.
 - current_mainline_scientific_target: `S2A`
 - current_active_engineering_gate: `E4A`
 - deployment_mode: `design_intake_only`
-- implementation_status: `in_progress`
+- implementation_status: `smoke_passed`
 - training_status: `not_started`
 - benchmark_status: `not_started`
 - preserved_s2_evidence: `docs/mainline/reports/s2_round8_formal_latest.md`, `docs/mainline/reports/s2_b0_b1_b2_metrics_latest.md`, `docs/mainline/reports/s2_closure_assessment_latest.md`
-- current_round: `bounded E4A implementation + smoke only; no S2A formal execution`
+- current_round: `bounded E4A implementation + smoke completed; no S2A formal execution`
 
 ## Round8 formal update (latest)
 - round_id: `RUN-S2-ROUND8-FORMAL-R1`
@@ -59,7 +59,7 @@ This file tracks the authoritative state for document-driven automation.
   - unseen_miou: `0.0`
   - harmonic_miou: `0.0`
 - s2_judgment_state: `PASS`
-- next_step: `handoff preserved; E4A/S2A design-intake review is the next active target`
+- next_step: `hand off preserved; E4A smoke evidence is settled and S2A formal remains out of scope for this round`
 
 ## E2 repro R2 round update
 - round_status: `HARD_BLOCKER`

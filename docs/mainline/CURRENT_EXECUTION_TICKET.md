@@ -33,16 +33,16 @@ Implement the minimum E4A Oracle-Obj loss-attribution surface from the approved 
 - remote_snapshot_id: `not-yet-declared`
 - remote_tree_verified: `true`
 - config_snapshot_path: `not-yet-declared`
-- governance_ingestion_note: `pre-flight code-truth check passed; implementation pack assumptions still match the current residual runtime`
-- archive_sync_note: `remote alignment verified; bounded commit and smoke will be mirrored after code landing`
+- governance_ingestion_note: `pre-flight code-truth check passed; implementation pack assumptions still match the current residual runtime; bounded E4A smoke completed successfully`
+- archive_sync_note: `remote alignment verified; bounded commit and smoke were mirrored after code landing`
 
 ## Experiment binding
 - experiment_id: `EXP-E4A-ORACLEOBJ-LOSS-ATTRIBUTION-INSTRUMENTATION`
-- run_id: `not-yet-declared`
+- run_id: `RUN-E4A-ATTRIBUTION-SMOKE-R1`
 - question_type: `implementation_smoke`
 - level: `implementation`
 - eligible_for_gate_judgment: `false`
-- expected_next_status: `bounded_smoke_ready`
+- expected_next_status: `smoke_passed`
 
 ## Bound design packs
 - `DP-E4A-ORACLEOBJ-LOSS-ATTRIBUTION-INSTRUMENTATION-R1`
@@ -54,6 +54,13 @@ Implement the minimum E4A Oracle-Obj loss-attribution surface from the approved 
 - No S2A formal execution in this round.
 - No training or benchmark matrix beyond the bounded E4A smoke.
 - Keep PP116 asset discovery compatibility (`data/pascal_part116`) intact.
+
+## Smoke outcome
+- bounded_e4a_smoke: `passed`
+- smoke_conditions: `full`, `minus_l_inst`, `minus_l_overlap`, `only_l_inst`, `only_l_overlap`, `zero_loss`
+- zero_loss_no_update: `true`
+- grouped_metric_schema_unchanged: `true`
+- evaluator_semantics_unchanged: `true`
 
 ## Allowed execution scope
 - Implement the minimum E4A loss-attribution surface in the approved residual-layer files.

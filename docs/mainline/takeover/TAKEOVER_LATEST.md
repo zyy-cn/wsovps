@@ -2,9 +2,9 @@
 
 This is the primary handoff artifact for web-side GPT review.
 
-- generated_at: `2026-04-01T11:36:31`
-- source_digest: `fc339b3d7258b207d3587a52d2ad95bbc33dfdf23641599e03f6babec8cb2aac`
-- state_version: `f96faefe53ce`
+- generated_at: `2026-04-01T11:49:45`
+- source_digest: `4d7112933ec15f042aa6ecfeb3a51755e6bec635f21ab8a85b864aaabca2abf8`
+- state_version: `e8e7235c9f6a`
 
 ## Current control-plane truth
 - active_gate: `E4A`
@@ -21,10 +21,10 @@ This is the primary handoff artifact for web-side GPT review.
 - design_pack_status: `approved`
 - milestone_id: `e4a-implementation-r2`
 - experiment_id: `EXP-E4A-ORACLEOBJ-LOSS-ATTRIBUTION-INSTRUMENTATION`
-- run_id: `not-yet-declared`
+- run_id: `RUN-E4A-ATTRIBUTION-SMOKE-R1`
 - question_type: `implementation_smoke`
 - level: `implementation`
-- expected_next_status: `bounded_smoke_ready`
+- expected_next_status: `smoke_passed`
 - long_running: `False`
 - watcher_required: `False`
 - listener_required: `False`
@@ -38,6 +38,23 @@ This is the primary handoff artifact for web-side GPT review.
 - allowed_tools: `[]`
 - formal_pass: not-yet-declared
 - allowed_scope: - Implement the minimum E4A loss-attribution surface in the approved residual-layer files. - Run the bounded E4A smoke only. - Preserve the settled S2 PASS evidence and provenance. - Refresh canonical latest/takeover surfaces and sync the implementation result back to local.
+
+## E4A smoke outcome
+- run_id: `RUN-E4A-ATTRIBUTION-SMOKE-R1`
+- conditions: `full`, `minus_l_inst`, `minus_l_overlap`, `only_l_inst`, `only_l_overlap`, `zero_loss`
+- all_conditions_passed: `true`
+- zero_loss_no_update: `true`
+- grouped_metric_schema_unchanged: `true`
+- evaluator_semantics_unchanged: `true`
+- dino_weight_path: `/mnt/sda/zyy/weight/DINOv2/dinov2_vitb14_reg4_pretrain.pth`
+- dino_weight_sha256: `73182a088cf94833c94b1666d1c99e02fe87e2007bff57b564fb6206e25dba71`
+- smoke_reports:
+  - `docs/mainline/reports/e4a_switch_matrix_note_latest.md`
+  - `docs/mainline/reports/e4a_instrumentation_mapping_latest.md`
+  - `docs/mainline/reports/e4a_smoke_summary_latest.md`
+  - `docs/mainline/reports/e4a_compatibility_note_latest.md`
+  - `docs/mainline/reports/e4a_delta_review_packet_latest.md`
+- next_step_category: `S2A formal remains out of scope; keep E4A smoke evidence settled`
 
 ## Experiment Ledger
 - active_count: `4`

@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-04-01T11:36:31",
-  "source_digest": "fc339b3d7258b207d3587a52d2ad95bbc33dfdf23641599e03f6babec8cb2aac",
-  "state_version": "f96faefe53ce",
+  "generated_at": "2026-04-01T11:49:45",
+  "source_digest": "4d7112933ec15f042aa6ecfeb3a51755e6bec635f21ab8a85b864aaabca2abf8",
+  "state_version": "e8e7235c9f6a",
   "active_gate": "E4A",
   "active_scientific_gate": "S2A",
   "supporting_engineering_gates": [
@@ -91,6 +91,31 @@
     "scientific_status": "active-s2a-design-intake",
     "engineering_status": "prepared",
     "overall_status": "s2_passed_next_target_ready"
+  },
+  "e4a_smoke": {
+    "run_id": "RUN-E4A-ATTRIBUTION-SMOKE-R1",
+    "conditions": [
+      "full",
+      "minus_l_inst",
+      "minus_l_overlap",
+      "only_l_inst",
+      "only_l_overlap",
+      "zero_loss"
+    ],
+    "all_conditions_passed": true,
+    "zero_loss_no_update": true,
+    "grouped_metric_schema_unchanged": true,
+    "evaluator_semantics_unchanged": true,
+    "dino_weight_path": "/mnt/sda/zyy/weight/DINOv2/dinov2_vitb14_reg4_pretrain.pth",
+    "dino_weight_sha256": "73182a088cf94833c94b1666d1c99e02fe87e2007bff57b564fb6206e25dba71",
+    "report_paths": [
+      "docs/mainline/reports/e4a_switch_matrix_note_latest.md",
+      "docs/mainline/reports/e4a_instrumentation_mapping_latest.md",
+      "docs/mainline/reports/e4a_smoke_summary_latest.md",
+      "docs/mainline/reports/e4a_compatibility_note_latest.md",
+      "docs/mainline/reports/e4a_delta_review_packet_latest.md"
+    ],
+    "next_step_category": "S2A formal remains out of scope; keep E4A smoke evidence settled"
   },
   "experiment_ledger": {
     "active_count": 4,
